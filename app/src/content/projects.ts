@@ -13,5 +13,5 @@ export const projects: Project[] = [
   { slug: 'weather-globe', title: 'Weather Globe', category: 'Ocean', status: 'todo' },
   { slug: 'fermi-paradox', title: 'Where is everybody?', category: 'Aliens', status: 'todo' },
   { slug: 'pyramid', title: 'Build a Pyramid', category: 'Ancient', status: 'todo' },
-  { slug: 'particle-type', title: 'Particle Type', category: 'Play', status: 'todo' },
+  { slug: 'particle-type', title: 'Particle Type', category: 'Play', status: 'done' },
 ]

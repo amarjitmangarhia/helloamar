@@ -6,6 +6,7 @@ const linkCls = 'border-b-2 border-transparent pb-0.5'
 export function TopNav() {
   const { pathname } = useLocation()
   const onProjects = pathname.startsWith('/projects')
+  if (/^\/projects\/[^/]+/.test(pathname)) return null // project pages have their own BackPill
   return (
     <div className="fixed inset-x-0 top-0 z-10 flex justify-center px-5 py-4">
       <nav className="glass-nav flex w-full max-w-[1240px] items-center justify-between gap-4 rounded-full py-2.5 pr-3 pl-5">

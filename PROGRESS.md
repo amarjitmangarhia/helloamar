@@ -25,9 +25,11 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Weather Globe | `projects/02-ocean/weather-globe` | ⬜ | ⬜ | placeholder | ⬜ |
 | Fermi Paradox | `projects/03-aliens/fermi-paradox` | ⬜ | ⬜ | placeholder | ⬜ |
 | Pyramid Builder | `projects/04-ancient/pyramid-builder` | – | ⬜ | placeholder | ⬜ |
-| Particle Type | `projects/05-play/particle-type` | ⬜ | ⬜ | placeholder | ⬜ |
+| Particle Type | `projects/05-play/particle-type` | ✅ | ✅ | ✅ `/projects/particle-type` | 🟡 owner to review |
 
 ## Working method (owner's choice)
+Delivery: each piece ships as a folder with `files/` + `deploy.sh <path-to-app>`. The script copies files in, runs tsc + build, commits locally (never pushes), then deletes itself. Owner tests locally and pushes manually.
+
 Build one thing → owner runs it and reviews → owner says "continue with next" → repeat. Build the real Projects hub last, once cards have something to show.
 
 ## Notes / deviations from the handoff
@@ -42,6 +44,8 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 ## Session log
 - Session 1: unpacked handoff, organized into folders, per-project specs, tracker.
 - Session 2: built `app/` foundation + Home page. Build passes. Next: owner runs `npm run dev` and reviews Home.
+
+- Session 3: ported Particle Type (`app/src/scenes/particle-type/`, page in `app/src/pages/projects/`). Added `pages/projects/registry.ts`: to finish a project, add one line there. TopNav hides on project pages. Delivered as a `deploy.sh` drop (owner's standing rule: files + deploy.sh that copies, checks, commits locally, never pushes, then deletes itself).
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
