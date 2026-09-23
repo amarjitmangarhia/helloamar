@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../../_shared/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f4f1ec;color:#1e1f24;font-family:Manrope,system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+a{color:#1e1f24;text-decoration:none}
+a:hover{color:#c4553d}
+</style>
+</helmet>
+<div ref="{{ mountRef }}" style="position:fixed;inset:0;cursor:grab;touch-action:none"></div>
+<sc-for list="{{ cities }}" as="c" hint-placeholder-count="0">
+  <div data-city="{{ $index }}" style="position:fixed;left:0;top:0;z-index:6;pointer-events:none;opacity:0;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(250,248,245,.92);border:1px solid rgba(30,31,36,.08);box-shadow:0 6px 14px -8px rgba(30,31,36,.4);font-size:12px;font-weight:700;white-space:nowrap;transition:opacity .25s">
+    <span>{{ c.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-weight:500;color:#4a4b53">{{ c.tempLabel }}</span>
+  </div>
+</sc-for>
+<sc-if value="{{ showUI }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;top:16px;left:16px;right:16px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+    <a href="../../../pages/projects-hub/prototype.html" style="pointer-events:auto;padding:10px 16px;border-radius:999px;background:rgba(250,248,245,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(30,31,36,.08);font-weight:700;font-size:14px">← Projects</a>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">Weather Globe</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5d5e66">Project 02 · Open-Meteo API + three.js</span>
+    </div>
+  </div>
+  <div style="position:fixed;left:16px;bottom:16px;z-index:10;width:min(300px,calc(100% - 32px));max-height:calc(100vh - 110px);overflow:auto;display:flex;flex-direction:column;gap:6px;padding:18px 12px 12px;border-radius:26px;background:rgba(250,248,245,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(30,31,36,.08);box-shadow:0 24px 48px -28px rgba(30,31,36,.45);box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 8px 8px">
+      <span style="font-weight:800;font-size:16px">Right now</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5d5e66">{{ updated }}</span>
+    </div>
+    <sc-for list="{{ cities }}" as="c" hint-placeholder-count="10">
+      <button onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;border:0;cursor:pointer;padding:10px;border-radius:16px;background:{{ c.bg }};font-family:Manrope,sans-serif;text-align:left;color:#1e1f24" style-hover="background:rgba(30,31,36,.06)">
+        <span style="width:10px;height:10px;border-radius:50%;flex-shrink:0;background:{{ c.color }}"></span>
+        <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+          <span style="font-weight:700;font-size:14px">{{ c.name }}</span>
+          <span style="font-size:12px;color:#5d5e66">{{ c.cond }}</span>
+        </span>
+        <span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+          <span style="font-weight:800;font-size:16px">{{ c.tempLabel }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5d5e66">{{ c.time }}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+  <span style="position:fixed;right:20px;bottom:20px;z-index:10;font-family:'JetBrains Mono',monospace;font-size:12px;color:#5d5e66">Drag to spin · pick a city to fly there</span>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showUI: true, data: null, err: false, sel: -1, updated: 'Loading…' };
+  mountRef = React.createRef();
+  cities = [
+    { name: 'London', lat: 51.51, lon: -0.13 }, { name: 'New York', lat: 40.71, lon: -74.01 },
+    { name: 'Los Angeles', lat: 34.05, lon: -118.24 }, { name: 'São Paulo', lat: -23.55, lon: -46.63 },
+    { name: 'Reykjavík', lat: 64.15, lon: -21.94 }, { name: 'Lagos', lat: 6.52, lon: 3.38 },
+    { name: 'Cairo', lat: 30.04, lon: 31.24 }, { name: 'Mumbai', lat: 19.08, lon: 72.88 },
+    { name: 'Tokyo', lat: 35.68, lon: 139.69 }, { name: 'Sydney', lat: -33.87, lon: 151.21 }
+  ];
+
+  componentDidMount() {
+    this.preview = new URLSearchParams(location.search).has('preview');
+    this.setState({ showUI: !this.preview });
+    this.fetchWeather(); this.poll = setInterval(() => this.fetchWeather(), 600000);
+    this.clock = setInterval(() => this.forceUpdate(), 30000);
+    this.init();
+  }
+  componentWillUnmount() {
+    this.dead = true; cancelAnimationFrame(this.raf); clearInterval(this.poll); clearInterval(this.clock);
+    window.removeEventListener('resize', this.onResize);
+    if (this.renderer) this.renderer.dispose();
+  }
+  componentDidUpdate(pp, ps) { if (ps.data !== this.state.data) this.updateMarkers(); }
+
+  async fetchWeather() {
+    const la = this.cities.map(c => c.lat).join(','), lo = this.cities.map(c => c.lon).join(',');
+    try {
+      const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto`);
+      const j = await r.json(), arr = Array.isArray(j) ? j : [j];
+      const data = arr.map(d => ({ temp: d.current.temperature_2m, code: d.current.weather_code, wind: d.current.wind_speed_10m, off: d.utc_offset_seconds }));
+      const n = new Date(), p = x => String(x).padStart(2, '0');
+      this.setState({ data, err: false, updated: 'Updated ' + p(n.getHours()) + ':' + p(n.getMinutes()) });
+    } catch (e) { this.setState({ err: true, updated: 'Offline' }); }
+  }
+  cond(c) {
+    if (c === 0) return 'Clear'; if (c === 1) return 'Mainly clear'; if (c === 2) return 'Partly cloudy'; if (c === 3) return 'Overcast';
+    if (c <= 48) return 'Fog'; if (c <= 57) return 'Drizzle'; if (c <= 67) return 'Rain'; if (c <= 77) return 'Snow';
+    if (c <= 82) return 'Showers'; if (c <= 86) return 'Snow showers'; return 'Thunderstorm';
+  }
+  tempHex(t) {
+    const stops = [[-10, [108, 195, 207]], [15, [243, 211, 124]], [35, [241, 130, 104]]];
+    t = Math.max(-10, Math.min(35, t));
+    const [a, b] = t <= 15 ? [stops[0], stops[1]] : [stops[1], stops[2]];
+    const k = (t - a[0]) / (b[0] - a[0]);
+    return '#' + a[1].map((v, i) => Math.round(v + (b[1][i] - v) * k).toString(16).padStart(2, '0')).join('');
+  }
+  vec(lat, lon, r) {
+    const T = this.T, p = lat * Math.PI / 180, l = lon * Math.PI / 180;
+    return new T.Vector3(Math.cos(p) * Math.sin(l) * r, Math.sin(p) * r, Math.cos(p) * Math.cos(l) * r);
+  }
+  updateMarkers() {
+    if (!this.markers) return;
+    const d = this.state.data;
+    this.markers.forEach((m, i) => {
+      const t = d && d[i] ? d[i].temp : 10;
+      m.h = 0.08 + (Math.max(-10, Math.min(40, t)) + 10) / 50 * 0.32;
+      m.mat.color.set(d ? this.tempHex(t) : '#c9c3ba');
+    });
+  }
+
+  async init() {
+    const T = await import('https://unpkg.com/three@0.160.0/build/three.module.js');
+    if (this.dead || !this.mountRef.current) return;
+    this.T = T;
+    const el = this.mountRef.current, R = 1.4;
+    const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    el.appendChild(renderer.domElement);
+    this.renderer = renderer;
+    const scene = new T.Scene();
+    const camera = new T.PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 50);
+    scene.add(new T.HemisphereLight('#ffffff', '#d9cfc4', 1.3));
+    const dl = new T.DirectionalLight('#ffffff', 1.4); dl.position.set(-3, 4, 5); scene.add(dl);
+    const globe = new T.Group(); scene.add(globe);
+    globe.add(new T.Mesh(new T.SphereGeometry(R * .985, 64, 48), new T.MeshStandardMaterial({ color: '#e9e3da', roughness: 1 })));
+
+    let land = null;
+    try {
+      const topo = await import('https://esm.sh/topojson-client@3.1.0');
+      const j = await (await fetch('https://unpkg.com/world-atlas@2.0.2/land-110m.json')).json();
+      const fc = topo.feature(j, j.objects.land);
+      const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 512;
+      const ctx = cv.getContext('2d'); ctx.fillStyle = '#000';
+      const feats = fc.features || [fc];
+      feats.forEach(f => {
+        const g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+        polys.forEach(poly => {
+          ctx.beginPath();
+          poly.forEach(ring => {
+            let prev = null;
+            ring.forEach(([lo, la]) => {
+              const x = (lo + 180) / 360 * 1024, y = (90 - la) / 180 * 512;
+              if (prev === null || Math.abs(lo - prev) > 180) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              prev = lo;
+            });
+          });
+          ctx.fill('evenodd');
+        });
+      });
+      land = ctx.getImageData(0, 0, 1024, 512).data;
+    } catch (e) {}
+    if (this.dead) return;
+
+    const M = 26000, pts = [], rnd = [];
+    for (let i = 0; i < M; i++) {
+      const y = 1 - 2 * (i + .5) / M, rr = Math.sqrt(1 - y * y), ph = i * 2.39996;
+      const x = Math.cos(ph) * rr, z = Math.sin(ph) * rr;
+      const lat = Math.asin(y) * 180 / Math.PI, lon = Math.atan2(x, z) * 180 / Math.PI;
+      const px = Math.min(1023, Math.floor((lon + 180) / 360 * 1024)), py = Math.min(511, Math.floor((90 - lat) / 180 * 512));
+      const isLand = land ? land[(py * 1024 + px) * 4 + 3] > 100 : Math.random() < .3;
+      if (isLand) { pts.push(x * R, y * R, z * R); rnd.push(Math.random()); }
+    }
+    const geo = new T.BufferGeometry();
+    geo.setAttribute('position', new T.BufferAttribute(new Float32Array(pts), 3));
+    geo.setAttribute('aRand', new T.BufferAttribute(new Float32Array(rnd), 1));
+    const dotMat = new T.ShaderMaterial({
+      uniforms: { uPR: { value: renderer.getPixelRatio() }, uSize: { value: 24 } },
+      vertexShader: `attribute float aRand; uniform float uPR; uniform float uSize; varying vec3 vCol;
+        void main(){ vec4 mv = modelViewMatrix*vec4(position,1.); gl_Position = projectionMatrix*mv;
+          gl_PointSize = uSize*mix(.8,1.15,aRand)*uPR/(-mv.z);
+          vCol = mix(vec3(.424,.765,.812), vec3(.62,.8,.6), smoothstep(-.6,1.,position.y + aRand*.3)); }`,
+      fragmentShader: `varying vec3 vCol; void main(){ vec2 c = gl_PointCoord*2.-1.; float r2 = dot(c,c); if(r2>1.) discard;
+          vec3 n = vec3(c.x,-c.y,sqrt(1.-r2)); float d = max(dot(n,normalize(vec3(-.5,.7,.6))),0.);
+          gl_FragColor = vec4(vCol*(.65+.45*d),1.); }`
+    });
+    const dots = new T.Points(geo, dotMat); dots.frustumCulled = false; globe.add(dots);
+
+    const cylG = new T.CylinderGeometry(.012, .012, 1, 8); cylG.translate(0, .5, 0);
+    const headG = new T.SphereGeometry(.035, 16, 12), up = new T.Vector3(0, 1, 0);
+    this.markers = this.cities.map((c, i) => {
+      const mat = new T.MeshStandardMaterial({ color: '#c9c3ba', roughness: .5 });
+      const g = new T.Group(), n = this.vec(c.lat, c.lon, 1);
+      g.position.copy(n.clone().multiplyScalar(R)); g.quaternion.setFromUnitVectors(up, n);
+      const stem = new T.Mesh(cylG, mat), head = new T.Mesh(headG, mat);
+      head.userData.i = i; g.add(stem, head); globe.add(g);
+      return { g, stem, head, mat, h: .1, cur: 0 };
+    });
+    this.updateMarkers();
+
+    const st = { yaw: 0, pitch: .35, vy: 0, drag: false, lx: 0, ly: 0, moved: 0, idle: 0 };
+    const ray = new T.Raycaster(), ndc = new T.Vector2();
+    el.addEventListener('pointerdown', e => { st.drag = true; st.moved = 0; st.lx = e.clientX; st.ly = e.clientY; el.setPointerCapture(e.pointerId); });
+    el.addEventListener('pointermove', e => {
+      if (!st.drag) return;
+      const dx = e.clientX - st.lx, dy = e.clientY - st.ly; st.moved += Math.abs(dx) + Math.abs(dy);
+      st.yaw += dx * .006; st.vy = dx * .006; st.pitch = Math.max(-1.2, Math.min(1.2, st.pitch + dy * .005));
+      st.lx = e.clientX; st.ly = e.clientY; st.idle = performance.now();
+      if (this.state.sel >= 0 && st.moved > 6) this.setState({ sel: -1 });
+    });
+    el.addEventListener('pointerup', e => {
+      st.drag = false;
+      if (st.moved > 6) return;
+      ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ndc, camera);
+      const hit = ray.intersectObjects(this.markers.map(m => m.head), false)[0];
+      if (hit) this.setState({ sel: hit.object.userData.i });
+    });
+    this.onResize = () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); };
+    window.addEventListener('resize', this.onResize);
+
+    const wv = new T.Vector3(), cd = new T.Vector3();
+    let last = performance.now();
+    const loop = () => {
+      if (this.dead) return;
+      this.raf = requestAnimationFrame(loop);
+      const now = performance.now(), dt = Math.min(.05, (now - last) / 1000); last = now;
+      const sel = this.state.sel;
+      if (sel >= 0) {
+        const c = this.cities[sel]; let ty = -c.lon * Math.PI / 180;
+        while (ty - st.yaw > Math.PI) ty -= Math.PI * 2; while (st.yaw - ty > Math.PI) ty += Math.PI * 2;
+        st.yaw += (ty - st.yaw) * .06; st.pitch += (c.lat * Math.PI / 180 - st.pitch) * .06;
+      } else if (!st.drag) {
+        st.vy *= .95; st.yaw += st.vy;
+        if (now - st.idle > 2000) st.yaw += dt * .12;
+      }
+      globe.rotation.set(st.pitch, st.yaw, 0);
+      const wide = innerWidth > 900;
+      globe.position.x += ((wide && this.state.showUI ? .45 : 0) - globe.position.x) * .08;
+      camera.position.set(0, 0, innerWidth < 600 ? 6.8 : 5.2); camera.lookAt(0, 0, 0);
+      this.markers.forEach(m => { m.cur += (m.h - m.cur) * .08; m.stem.scale.y = m.cur; m.head.position.y = m.cur; });
+      scene.updateMatrixWorld();
+      cd.copy(camera.position).normalize();
+      const labels = document.querySelectorAll('[data-city]');
+      this.markers.forEach((m, i) => {
+        const lab = labels[i]; if (!lab) return;
+        m.head.getWorldPosition(wv);
+        const facing = wv.clone().sub(globe.position).normalize().dot(cd);
+        wv.project(camera);
+        const x = (wv.x * .5 + .5) * innerWidth, y = (-wv.y * .5 + .5) * innerHeight;
+        lab.style.transform = `translate(${x}px, ${y}px) translate(-50%, -140%)`;
+        lab.style.opacity = facing > .25 && (this.state.data || this.preview) ? (i === sel ? 1 : .92) : 0;
+      });
+      renderer.render(scene, camera);
+    };
+    loop();
+  }
+
+  renderVals() {
+    const d = this.state.data, sel = this.state.sel;
+    const cities = this.cities.map((c, i) => {
+      const w = d && d[i];
+      let time = '';
+      if (w) { const t = new Date(Date.now() + w.off * 1000); time = String(t.getUTCHours()).padStart(2, '0') + ':' + String(t.getUTCMinutes()).padStart(2, '0'); }
+      return {
+        name: c.name,
+        tempLabel: w ? Math.round(w.temp) + '°' : '–',
+        cond: w ? this.cond(w.code) + ' · ' + Math.round(w.wind) + ' km/h' : (this.state.err ? 'No data' : 'Loading…'),
+        time, color: w ? this.tempHex(w.temp) : '#c9c3ba',
+        bg: i === sel ? 'rgba(30,31,36,.08)' : 'rgba(30,31,36,0)',
+        pick: () => this.setState({ sel: sel === i ? -1 : i })
+      };
+    });
+    return { mountRef: this.mountRef, showUI: this.state.showUI, updated: this.state.updated, cities };
+  }
+}
+</script>
+</body>
+</html>

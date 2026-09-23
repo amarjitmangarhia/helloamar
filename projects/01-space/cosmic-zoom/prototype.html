@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../../_shared/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0c10;color:#ecebe6;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#ecebe6;text-decoration:none}
+a:hover{color:#f3d37c}
+::selection{background:#f19a82;color:#0b0c10}
+</style>
+</helmet>
+<div ref="{{ mountRef }}" style="position:fixed;inset:0;z-index:0;pointer-events:none"></div>
+<sc-for list="{{ labels }}" as="l" hint-placeholder-count="0">
+  <div data-lab="{{ $index }}" style="position:fixed;left:0;top:0;z-index:2;pointer-events:none;opacity:0;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ecebe6;white-space:nowrap">
+    <span style="width:14px;height:1px;background:#ecebe6"></span>{{ l.name }}
+  </div>
+</sc-for>
+
+<sc-if value="{{ showUI }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;top:16px;left:16px;right:16px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+    <a href="../../../pages/projects-hub/prototype.html" style="pointer-events:auto;padding:10px 16px;border-radius:999px;background:rgba(236,235,230,.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(236,235,230,.14);font-weight:700;font-size:14px">← Projects</a>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">Cosmic Zoom</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a9aab2">Space · scroll story</span>
+    </div>
+  </div>
+
+  <div style="position:fixed;left:clamp(20px,5vw,72px);bottom:22px;z-index:10;display:flex;gap:32px;flex-wrap:wrap;pointer-events:none">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a9aab2;text-transform:uppercase;letter-spacing:.08em">Height of view</span>
+      <span ref="{{ scaleRef }}" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:#f3d37c">14,000 km</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a9aab2;text-transform:uppercase;letter-spacing:.08em">Light crosses it in</span>
+      <span ref="{{ lightRef }}" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:#9fd8e0">0.0 seconds</span>
+    </div>
+  </div>
+
+  <div style="position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+    <sc-for list="{{ rail }}" as="r" hint-placeholder-count="8">
+      <button onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;cursor:pointer;padding:4px 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#ecebe6">
+        <span style="opacity:{{ r.op }};transition:opacity .3s">{{ r.label }}</span>
+        <span style="height:2px;width:{{ r.w }};background:{{ r.bg }};border-radius:2px;transition:width .3s"></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <main style="position:relative;z-index:1">
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="8">
+      <section data-screen-label="{{ s.label }}" style="height:140vh">
+        <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:0 clamp(20px,5vw,72px);box-sizing:border-box">
+          <div style="max-width:460px;display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:26px;background:rgba(11,12,16,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(236,235,230,.08)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f19a82">{{ s.tag }}</span>
+            <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.04em;font-weight:800;text-wrap:balance">{{ s.title }}</h2>
+            <p style="margin:0;font-size:17px;line-height:1.6;color:#c9c8c2;text-wrap:pretty">{{ s.body }}</p>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+    <section data-screen-label="Next" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 24px;box-sizing:border-box">
+      <div style="max-width:720px;display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f19a82">You reached the edge</span>
+        <h2 style="margin:0;font-size:clamp(40px,6vw,88px);line-height:.95;letter-spacing:-.045em;font-weight:800;text-wrap:balance">Now go down instead of out.</h2>
+        <p style="margin:0;font-size:18px;line-height:1.6;color:#c9c8c2;max-width:520px;text-wrap:pretty">We've mapped more of the Moon than of our own sea floor. Next, dive 11 km to the bottom of the ocean.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+          <a href="../../02-ocean/the-deep/prototype.html" style="padding:15px 24px;border-radius:999px;background:#ecebe6;color:#0b0c10;font-weight:700;font-size:15px" style-hover="color:#0b0c10;transform:translateY(-2px)">Dive into The Deep →</a>
+          <a href="../../../pages/projects-hub/prototype.html" style="padding:15px 24px;border-radius:999px;border:1px solid rgba(236,235,230,.3);font-weight:700;font-size:15px">All projects</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showUI: true, idx: 0 };
+  mountRef = React.createRef(); scaleRef = React.createRef(); lightRef = React.createRef();
+  LY = 9.4607e12;
+  stages = [
+    ['Earth', '00 · Earth · 12,742 km across', 'How big is space?', 'Start on a planet 12,742 km wide. Each scroll zooms you out one step, until you reach the edge of everything we can observe.'],
+    ['Moon', '01 · 384,400 km away', 'The Moon', "Moonlight reaches you in 1.3 seconds. The gap is wide enough to fit every other planet in the solar system, lined up side by side."],
+    ['Sun', '02 · 150 million km away', 'The Sun', "The sunlight on your skin left the Sun about 8 minutes and 20 seconds ago. It holds 99.8% of the solar system's mass, and about 1.3 million Earths would fit inside it."],
+    ['Planets', '03 · 4.5 billion km to Neptune', 'The planets', 'Light takes about four hours to reach Neptune. Voyager 1, launched in 1977, is the farthest spacecraft from Earth and is now more than 24 billion km away.'],
+    ['Stars', '04 · 4.24 light years', 'The nearest star', "Proxima Centauri is about 40 trillion km away. At Voyager 1's speed, the trip would take more than 70,000 years. Each dot here is a star within 20 light years of us."],
+    ['Milky Way', '05 · 100,000 light years across', 'The Milky Way', 'Our galaxy holds between 100 and 400 billion stars. The Sun sits about 26,000 light years from the centre and takes roughly 230 million years to go around once.'],
+    ['Local Group', '06 · 2.5 million light years', 'Andromeda', 'Andromeda is the farthest thing most people can see without a telescope. The light reaching your eyes tonight left it 2.5 million years ago, before modern humans existed.'],
+    ['Universe', '07 · 93 billion light years across', 'The observable universe', "The universe is 13.8 billion years old, yet the part we can see is 93 billion light years across, because space kept stretching while the light travelled. Each dot here stands for a whole cluster of galaxies."]
+  ];
+
+  componentDidMount() {
+    this.preview = new URLSearchParams(location.search).has('preview');
+    this.setState({ showUI: !this.preview });
+    this.init();
+  }
+  componentWillUnmount() {
+    this.dead = true; cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.onResize);
+    if (this.renderer) this.renderer.dispose();
+  }
+
+  fmtDist(km) {
+    const LY = this.LY, f = (n, d) => n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
+    if (km < 1e6) return f(Math.round(km / 100) * 100, 0) + ' km';
+    if (km < 1e9) return f(km / 1e6, 1) + ' million km';
+    if (km < 0.05 * LY) return f(km / 1.496e8, 1) + ' AU';
+    const ly = km / LY;
+    if (ly < 1000) return f(ly, 1) + ' light years';
+    if (ly < 1e6) return f(ly, 0) + ' light years';
+    if (ly < 1e9) return f(ly / 1e6, 1) + ' million ly';
+    return f(ly / 1e9, 1) + ' billion ly';
+  }
+  fmtTime(s) {
+    const f = n => n.toLocaleString('en-US', { maximumFractionDigits: 1, minimumFractionDigits: 1 }), y = s / 3.156e7;
+    if (s < 1) return s.toFixed(3) + ' seconds'; if (s < 60) return f(s) + ' seconds'; if (s < 3600) return f(s / 60) + ' minutes'; if (s < 86400) return f(s / 3600) + ' hours';
+    if (y < 1) return f(s / 86400) + ' days'; if (y < 1e6) return Math.round(y).toLocaleString('en-US') + ' years';
+    if (y < 1e9) return f(y / 1e6) + ' million years'; return f(y / 1e9) + ' billion years';
+  }
+
+  async init() {
+    const T = await import('https://unpkg.com/three@0.160.0/build/three.module.js');
+    if (this.dead || !this.mountRef.current) return;
+    const LY = this.LY, R = Math.random;
+    const renderer = new T.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight); renderer.setClearColor('#0b0c10');
+    this.mountRef.current.appendChild(renderer.domElement); this.renderer = renderer;
+    const scene = new T.Scene(), camera = new T.PerspectiveCamera(40, innerWidth / innerHeight, 0.001, 1e6);
+    scene.add(new T.AmbientLight('#ffffff', .12));
+    const dl = new T.DirectionalLight('#fff4e6', 2.4); dl.position.set(-6, 1, 2); scene.add(dl);
+    const root = new T.Group(); scene.add(root);
+    const PR = renderer.getPixelRatio();
+
+    const cloud = (n, fn, size) => {
+      const p = new Float32Array(n * 3), c = new Float32Array(n * 3), s = new Float32Array(n), col = new T.Color();
+      for (let i = 0; i < n; i++) { const o = fn(i); p.set(o.slice(0, 3), i * 3); col.set(o[3]); c.set([col.r, col.g, col.b], i * 3); s[i] = o[4] ?? 1; }
+      const g = new T.BufferGeometry();
+      g.setAttribute('position', new T.BufferAttribute(p, 3)); g.setAttribute('aCol', new T.BufferAttribute(c, 3)); g.setAttribute('aSize', new T.BufferAttribute(s, 1));
+      const m = new T.ShaderMaterial({ transparent: true, depthWrite: false, blending: T.AdditiveBlending,
+        uniforms: { uOp: { value: 1 }, uSize: { value: size }, uPR: { value: PR } },
+        vertexShader: `attribute vec3 aCol; attribute float aSize; uniform float uSize; uniform float uPR; varying vec3 vC;
+          void main(){ vC=aCol; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); gl_PointSize=uSize*aSize*uPR; }`,
+        fragmentShader: `uniform float uOp; varying vec3 vC; void main(){ float d=length(gl_PointCoord*2.-1.); if(d>1.) discard; gl_FragColor=vec4(vC, pow(1.-d,1.6)*uOp); }` });
+      const pts = new T.Points(g, m); pts.frustumCulled = false; return pts;
+    };
+    const ring = (r, color, op) => {
+      const pts = []; for (let k = 0; k <= 200; k++) { const a = k / 200 * Math.PI * 2; pts.push(new T.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r)); }
+      return new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color, transparent: true, opacity: op }));
+    };
+    const gauss = () => (R() + R() + R() - 1.5) / 1.5;
+    const spiral = (n, arms, tint) => cloud(n, () => {
+      if (R() < .22) { const r = Math.pow(R(), 1.5) * .18, a = R() * 6.283; return [Math.cos(a) * r, gauss() * .05, Math.sin(a) * r, R() < .5 ? '#f3d37c' : '#f7e6c4', 1.2]; }
+      const arm = Math.floor(R() * arms), r = .12 + Math.pow(R(), .8) * .88, a = arm * 6.283 / arms + r * 4.2 + gauss() * (.32 * (1 - r) + .14);
+      const c = R() < .07 ? '#f19a82' : R() < .5 ? tint : '#d9e6ff';
+      return [Math.cos(a) * r, gauss() * .025, Math.sin(a) * r, c, .7 + R() * .6];
+    }, 2.2);
+
+    const sphereTex = () => {
+      const W = 512, H = 256, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+      const ctx = cv.getContext('2d'), img = ctx.createImageData(W, H);
+      const h = (x, y, z) => { let n = Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(z, 2147483647); n = Math.imul(n ^ (n >>> 13), 1274126177); return ((n ^ (n >>> 16)) >>> 0) / 4294967296; };
+      const vn = (x, y, z) => { const X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z), u = x - X, v = y - Y, w = z - Z, s = t => t * t * (3 - 2 * t), a = s(u), b = s(v), c = s(w);
+        const l = (p, q, t) => p + (q - p) * t;
+        return l(l(l(h(X, Y, Z), h(X + 1, Y, Z), a), l(h(X, Y + 1, Z), h(X + 1, Y + 1, Z), a), b), l(l(h(X, Y, Z + 1), h(X + 1, Y, Z + 1), a), l(h(X, Y + 1, Z + 1), h(X + 1, Y + 1, Z + 1), a), b), c); };
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        const lat = (y / H - .5) * Math.PI, lon = x / W * 6.283, px = Math.cos(lat) * Math.cos(lon) * 2.2, py = Math.sin(lat) * 2.2, pz = Math.cos(lat) * Math.sin(lon) * 2.2;
+        let e = 0, amp = .5, fr = 1; for (let o = 0; o < 5; o++) { e += amp * vn(px * fr + 9, py * fr + 3, pz * fr + 5); amp *= .5; fr *= 2; }
+        const pole = Math.abs(lat) > 1.25, land = e > .52, k = (y * W + x) * 4;
+        const c = pole ? [236, 240, 244] : land ? (e > .62 ? [196, 178, 140] : [110, 160, 105]) : [52, 96, 170];
+        img.data.set([c[0], c[1], c[2], 255], k);
+      }
+      ctx.putImageData(img, 0, 0); const t = new T.CanvasTexture(cv); t.colorSpace = T.SRGBColorSpace; return t;
+    };
+
+    const E = [1.496e8, 0, 0], G = [2.46e17, 0, 0], A = [G[0] + 2.0e19, 3e18, -1.4e19], L = [(G[0] + A[0]) / 2, A[1] / 2, A[2] / 2];
+    const moonA = .7, MOON = [E[0] + Math.cos(moonA) * 384400, 0, Math.sin(moonA) * 384400];
+    const planets = [[.387, '#a9a39b', 0], [.723, '#e3c58f', 0], [1, '#5b8fd6', 0], [1.524, '#d0694a', 0], [5.203, '#d8b48a', 0], [9.537, '#e6d09c', 0], [19.19, '#9fd8e0', 0], [30.07, '#5a7fe0', 0]];
+    planets.forEach((p, i) => p[2] = i === 2 ? 0 : i * 1.9 + 0.6);
+    const pPos = p => [Math.cos(p[2]) * p[0] * 1.496e8, 0, Math.sin(p[2]) * p[0] * 1.496e8];
+    const AC = [-2.4 * LY, 1.2 * LY, 3.2 * LY];
+
+    const objs = [];
+    const add = (obj, pos, scale, range, mats) => { root.add(obj); objs.push({ obj, pos, scale, range, mats }); };
+    const earth = new T.Mesh(new T.SphereGeometry(1, 64, 48), new T.MeshStandardMaterial({ map: sphereTex(), roughness: .9, transparent: true }));
+    earth.rotation.z = .41; add(earth, E, 6371, [-1, -1, 3, 3.6], [earth.material]);
+    const atm = new T.Mesh(new T.SphereGeometry(1.03, 48, 32), new T.MeshBasicMaterial({ color: '#8fc0ff', transparent: true, opacity: .12, side: T.BackSide }));
+    add(atm, E, 6371, [-1, -1, 1.2, 2], [atm.material]);
+    const moon = new T.Mesh(new T.SphereGeometry(1, 48, 32), new T.MeshStandardMaterial({ color: '#b9b4ad', roughness: 1, transparent: true }));
+    add(moon, MOON, 1737, [-1, -1, 2.6, 3.2], [moon.material]);
+    const mo = ring(1, '#ecebe6', .18); add(mo, E, 384400, [.2, .7, 2.2, 2.8], [mo.material]);
+    const sun = new T.Mesh(new T.SphereGeometry(1, 48, 32), new T.MeshBasicMaterial({ color: '#ffd08a', transparent: true }));
+    add(sun, [0, 0, 0], 696340, [1, 1.6, 4, 4.6], [sun.material]);
+    const sys = new T.Group();
+    planets.forEach(p => sys.add(ring(p[0] / 30.07, '#ecebe6', .14)));
+    const pd = cloud(9, i => i === 8 ? [0, 0, 0, '#ffd08a', 2.2] : [...pPos(planets[i]).map(v => v / (30.07 * 1.496e8)), planets[i][1], 1], 7); sys.add(pd);
+    add(sys, [0, 0, 0], 30.07 * 1.496e8, [1.4, 2.1, 4, 4.7], [...sys.children.slice(0, 8).map(c => c.material), pd.material]);
+    const stars = cloud(420, i => {
+      if (i === 0) return [0, 0, 0, '#ffd08a', 2.6];
+      if (i === 1) return [...AC.map(v => v / (20 * LY)), '#fff1d6', 2.4];
+      const v = new T.Vector3().randomDirection().multiplyScalar(Math.cbrt(R()) * (i < 60 ? 1 : 1.8));
+      return [v.x, v.y, v.z, ['#ffffff', '#ffd9b0', '#f19a82', '#cfe0ff'][Math.floor(R() * 4)], .6 + R() * 1.1];
+    }, 6);
+    add(stars, [0, 0, 0], 20 * LY, [3.1, 3.8, 5.1, 5.8], [stars.material]);
+    const mw = spiral(38000, 4, '#9fd8e0'); mw.rotation.y = 1.2;
+    add(mw, G, 5e4 * LY, [4.1, 4.8, 6.6, 7.3], [mw.material]);
+    const and = spiral(26000, 2, '#b5a3ea'); and.rotation.set(1.1, 0, .4);
+    add(and, A, 1.1e5 * LY, [5.1, 5.8, 6.7, 7.3], [and.material]);
+    const dw = cloud(90, i => { const v = new T.Vector3().randomDirection().multiplyScalar(Math.cbrt(R())); return [v.x, v.y * .6, v.z, R() < .5 ? '#d9e6ff' : '#f7e6c4', .8 + R() * 1.2]; }, 5);
+    add(dw, L, 5e6 * LY, [5.1, 5.8, 6.7, 7.3], [dw.material]);
+    const nodes = []; for (let i = 0; i < 160; i++) nodes.push(new T.Vector3().randomDirection().multiplyScalar(Math.cbrt(R())));
+    const edges = []; nodes.forEach((a, i) => { nodes.map((b, j) => [a.distanceTo(b), j]).sort((x, y) => x[0] - y[0]).slice(1, 4).forEach(([d, j]) => { if (j > i && d < .45) edges.push([a, nodes[j]]); }); });
+    const web = cloud(50000, () => {
+      const cols = ['#b5a3ea', '#9fd8e0', '#f19a82', '#d9e6ff'], c = cols[Math.floor(R() * 4)];
+      if (R() < .3) { const n = nodes[Math.floor(R() * nodes.length)], s = .03 * Math.pow(R(), 2); return [n.x + gauss() * s, n.y + gauss() * s, n.z + gauss() * s, c, 1.2]; }
+      const [a, b] = edges[Math.floor(R() * edges.length)], t = R(), s = .012;
+      return [a.x + (b.x - a.x) * t + gauss() * s, a.y + (b.y - a.y) * t + gauss() * s, a.z + (b.z - a.z) * t + gauss() * s, c, .8];
+    }, 2.2);
+    add(web, L, 4.4e23, [6.2, 6.9, 99, 99], [web.material]);
+
+    const key = [6371, 384400 * 1.15, 1.7e8, 4.6e9, 12 * LY, 6e4 * LY, 3.4e6 * LY, 4.4e23];
+    const Ds = key.map(k => k / 2.1), tgt = [E, E, [0, 0, 0], [0, 0, 0], [0, 0, 0], G, L, L];
+    this.labelDefs = [
+      ['Earth', E, [.6, 1, 3.3, 3.8]], ['Moon', MOON, [.3, .7, 1.3, 1.8]], ['Sun', [0, 0, 0], [1.4, 1.9, 4.3, 4.8]],
+      ['Jupiter', pPos(planets[4]), [2.4, 2.9, 3.5, 4]], ['Neptune', pPos(planets[7]), [2.4, 2.9, 3.5, 4]],
+      ['Alpha Centauri', AC, [3.5, 3.9, 4.5, 5]], ['You are here', [0, 0, 0], [4.5, 4.9, 5.5, 6]],
+      ['Milky Way', G, [5.5, 5.9, 6.5, 7]], ['Andromeda', A, [5.5, 5.9, 6.5, 7]]
+    ];
+    this.forceUpdate();
+
+    this.onResize = () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); };
+    window.addEventListener('resize', this.onResize);
+    const fade = (s, r) => s < r[0] || s > r[3] ? 0 : s < r[1] ? (s - r[0]) / (r[1] - r[0]) : s > r[2] ? (r[3] - s) / (r[3] - r[2]) : 1;
+    const ss = x => x * x * (3 - 2 * x), v3 = new T.Vector3();
+    let cur = 0; const t0 = performance.now();
+    const loop = () => {
+      if (this.dead) return;
+      this.raf = requestAnimationFrame(loop);
+      const t = (performance.now() - t0) / 1000;
+      let target;
+      if (this.preview) { const q = (t * .22) % 14; target = q < 7 ? q : 14 - q; }
+      else { const x = scrollY / (1.4 * innerHeight), fl = Math.floor(x); target = Math.min(7, fl + ss(Math.min(1, Math.max(0, (x - fl - .3) / .7)))); }
+      cur += (target - cur) * (this.preview ? 1 : .07);
+      const i0 = Math.min(6, Math.floor(cur)), fr = cur - i0;
+      const D = Math.pow(10, Math.log10(Ds[i0]) + (Math.log10(Ds[i0 + 1]) - Math.log10(Ds[i0])) * fr);
+      const w = Math.min(1, Math.max(0, (D - Ds[i0]) / (Ds[i0 + 1] - Ds[i0])));
+      const TG = [0, 1, 2].map(k => tgt[i0][k] + (tgt[i0 + 1][k] - tgt[i0][k]) * w);
+      objs.forEach(o => {
+        const op = fade(cur, o.range); o.obj.visible = op > 0.001;
+        if (!o.obj.visible) return;
+        o.mats.forEach(m => { if (m.uniforms) m.uniforms.uOp.value = op; else { m.opacity = op * (m.userData.base ?? (m.userData.base = m.opacity)); } });
+        o.obj.position.set((o.pos[0] - TG[0]) / D, (o.pos[1] - TG[1]) / D, (o.pos[2] - TG[2]) / D);
+        o.obj.scale.setScalar(o.scale / D);
+      });
+      earth.rotation.y = t * .05; mw.rotation.y = 1.2 + t * .01;
+      const wide = innerWidth > 960 && !this.preview;
+      root.position.x += ((wide ? 1.7 : 0) - root.position.x) * .08;
+      const yaw = .25 + cur * .35 + t * .015, pitch = .12 + Math.min(cur, 5) * .09, cd = innerWidth < 700 ? 8.5 : 6;
+      camera.position.set(Math.sin(yaw) * Math.cos(pitch) * cd + root.position.x, Math.sin(pitch) * cd, Math.cos(yaw) * Math.cos(pitch) * cd);
+      camera.lookAt(root.position.x, 0, 0);
+      renderer.render(scene, camera);
+      const viewH = 2 * cd * Math.tan(20 * Math.PI / 180) * D;
+      if (this.scaleRef.current) this.scaleRef.current.textContent = this.fmtDist(viewH);
+      if (this.lightRef.current) this.lightRef.current.textContent = this.fmtTime(viewH / 299792.458);
+      const labs = document.querySelectorAll('[data-lab]');
+      this.labelDefs.forEach((l, i) => {
+        const el = labs[i]; if (!el) return;
+        v3.set((l[1][0] - TG[0]) / D + root.position.x, (l[1][1] - TG[1]) / D, (l[1][2] - TG[2]) / D).project(camera);
+        el.style.transform = `translate(${(v3.x * .5 + .5) * innerWidth + 6}px, ${(-v3.y * .5 + .5) * innerHeight - 8}px)`;
+        el.style.opacity = this.preview ? 0 : fade(cur, l[2]);
+      });
+      const idx = Math.round(cur); if (idx !== this.state.idx) this.setState({ idx });
+    };
+    loop();
+  }
+
+  renderVals() {
+    const idx = this.state.idx;
+    return {
+      mountRef: this.mountRef, scaleRef: this.scaleRef, lightRef: this.lightRef, showUI: this.state.showUI,
+      labels: (this.labelDefs || []).map(l => ({ name: l[0] })),
+      sections: this.stages.map((s, i) => ({ label: '0' + i + ' ' + s[0], tag: s[1], title: s[2], body: s[3] })),
+      rail: this.stages.map((s, i) => ({
+        label: s[0], op: i === idx ? 1 : 0.35, w: i === idx ? '28px' : '12px', bg: i === idx ? '#f3d37c' : 'rgba(236,235,230,.4)',
+        go: () => window.scrollTo({ top: i * 1.4 * innerHeight, behavior: 'smooth' })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

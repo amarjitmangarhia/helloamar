@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../../_shared/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#07080c;color:#ecebe6;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#ecebe6;text-decoration:none}
+a:hover{color:#9dffc8}
+::selection{background:#9dffc8;color:#07080c}
+</style>
+</helmet>
+<div ref="{{ mountRef }}" style="position:fixed;inset:0;z-index:0;pointer-events:none"></div>
+<div ref="{{ labRef }}" style="position:fixed;left:0;top:0;z-index:2;pointer-events:none;opacity:0;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ecebe6;white-space:nowrap"><span style="width:14px;height:1px;background:#ecebe6"></span>{{ labText }}</div>
+
+<sc-if value="{{ showUI }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;top:16px;left:16px;right:16px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+    <a href="../../../pages/projects-hub/prototype.html#aliens" style="pointer-events:auto;padding:10px 16px;border-radius:999px;background:rgba(236,235,230,.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(236,235,230,.14);font-weight:700;font-size:14px">← Projects</a>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">Where is everybody?</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a9aab2">Aliens · the Fermi paradox</span>
+    </div>
+  </div>
+
+  <div style="position:fixed;left:clamp(20px,5vw,72px);bottom:22px;z-index:10;display:flex;flex-direction:column;gap:4px;pointer-events:none">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a9aab2;text-transform:uppercase;letter-spacing:.08em">Civilisations shown</span>
+    <span ref="{{ countRef }}" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:#9dffc8">1</span>
+  </div>
+
+  <div style="position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+    <sc-for list="{{ rail }}" as="r" hint-placeholder-count="7">
+      <button onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;cursor:pointer;padding:4px 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#ecebe6">
+        <span style="opacity:{{ r.op }};transition:opacity .3s">{{ r.label }}</span>
+        <span style="height:2px;width:{{ r.w }};background:{{ r.bg }};border-radius:2px;transition:width .3s"></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <main style="position:relative;z-index:1">
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="7">
+      <section data-screen-label="{{ s.label }}" style="height:140vh">
+        <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:0 clamp(20px,5vw,72px);box-sizing:border-box">
+          <div style="max-width:450px;display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:26px;background:rgba(7,8,12,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(236,235,230,.1)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9dffc8">{{ s.tag }}</span>
+            <h2 style="margin:0;font-size:clamp(34px,4.4vw,60px);line-height:1;letter-spacing:-.04em;font-weight:800;text-wrap:balance">{{ s.title }}</h2>
+            <p style="margin:0;font-size:17px;line-height:1.6;color:#c9c8c2;text-wrap:pretty">{{ s.body }}</p>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+    <section data-screen-label="Vote" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 24px;box-sizing:border-box">
+      <div style="width:100%;max-width:640px;display:flex;flex-direction:column;gap:24px;padding:32px;border-radius:30px;background:rgba(7,8,12,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(236,235,230,.12);box-sizing:border-box">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9dffc8">Your turn</span>
+        <h2 style="margin:0;font-size:clamp(34px,4.6vw,56px);line-height:1;letter-spacing:-.04em;font-weight:800">Which answer do you believe?</h2>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ options }}" as="o" hint-placeholder-count="5">
+            <button onClick="{{ o.pick }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;cursor:pointer;padding:16px 18px;border-radius:18px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};font-family:Manrope,sans-serif;font-weight:700;font-size:16px;text-align:left">
+              <span>{{ o.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500">{{ o.mark }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#c9c8c2;min-height:26px">{{ verdict }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="../../01-space/black-hole/prototype.html" style="padding:14px 22px;border-radius:999px;background:#ecebe6;color:#07080c;font-weight:700;font-size:15px" style-hover="color:#07080c">Next: Black Hole →</a>
+          <a href="../../../pages/projects-hub/prototype.html" style="padding:14px 22px;border-radius:999px;border:1px solid rgba(236,235,230,.3);font-weight:700;font-size:15px">All projects</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showUI: true, idx: 0, vote: null };
+  mountRef = React.createRef(); labRef = React.createRef(); countRef = React.createRef();
+  stages = [
+    ['Question', '1950 · Los Alamos', 'Where is everybody?', 'Over lunch, physicist Enrico Fermi asked a simple question. The galaxy is about 13.6 billion years old. If aliens exist, why have we never seen any sign of them?'],
+    ['The odds', 'The numbers', 'They should be everywhere', 'The Milky Way has between 100 and 400 billion stars, and most of them have planets. Even with slow ships, one civilisation could spread across the galaxy in tens of millions of years, a blink in cosmic time.'],
+    ['Filter', 'Answer 01', 'The Great Filter', 'Maybe something stops almost every civilisation before it spreads: war, climate, asteroids, its own technology. The worrying part is that nobody knows if that filter is behind us or ahead.'],
+    ['Distance', 'Answer 02', "It's just too big", "Our first radio signals have travelled a little over 100 light years. That bubble is the tiny sphere around the Sun. The galaxy is 100,000 light years across. Nobody may have heard us yet."],
+    ['Rare Earth', 'Answer 03', 'We might be rare', 'The right star, a stable orbit, a big moon, plate tectonics, water, and billions of years of luck. Maybe simple life is common but intelligent life almost never happens.'],
+    ['Zoo', 'Answer 04', 'The zoo hypothesis', "Perhaps they know we're here and choose to stay quiet, watching the way we watch animals in a nature reserve, waiting until we're ready."],
+    ['First', 'Answer 05', "Maybe we're early", 'Small red stars can shine for trillions of years, and the universe is only 13.8 billion years old. We might be one of the first minds to wake up.']
+  ];
+  opts = ['The Great Filter', "It's just too big", 'We might be rare', 'The zoo hypothesis', "Maybe we're early"];
+  verdicts = [
+    'A pessimist. If you are right, finding simple life on Mars would be bad news, because it would mean the filter is still ahead of us.',
+    'A realist. Space is so big that silence is exactly what we should expect for now.',
+    'An optimist about Earth. It would make our planet one of the most precious places in the galaxy.',
+    'A romantic. Somewhere out there, someone might be reading about us right now.',
+    "A pioneer. If you're right, the galaxy is ours to fill."
+  ];
+
+  componentDidMount() {
+    this.preview = new URLSearchParams(location.search).has('preview');
+    let vote = null; try { const v = localStorage.getItem('fermi-vote'); if (v !== null) vote = +v; } catch (e) {}
+    this.setState({ showUI: !this.preview, vote });
+    this.init();
+  }
+  componentWillUnmount() {
+    this.dead = true; cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.onResize);
+    if (this.renderer) this.renderer.dispose();
+  }
+
+  async init() {
+    const T = await import('https://unpkg.com/three@0.160.0/build/three.module.js');
+    if (this.dead || !this.mountRef.current) return;
+    const R = Math.random, gauss = () => (R() + R() + R() - 1.5) / 1.5;
+    const renderer = new T.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight); renderer.setClearColor('#07080c');
+    this.mountRef.current.appendChild(renderer.domElement); this.renderer = renderer;
+    const scene = new T.Scene(), camera = new T.PerspectiveCamera(40, innerWidth / innerHeight, 0.0005, 200);
+    const root = new T.Group(); scene.add(root);
+    const PR = renderer.getPixelRatio(), SUN = new T.Vector3(-2.6, 0, 0.4);
+
+    const mk = (n, fn, frag, uni) => {
+      const p = new Float32Array(n * 3), c = new Float32Array(n * 3), r = new Float32Array(n), col = new T.Color();
+      for (let i = 0; i < n; i++) { const o = fn(i); p.set(o.slice(0, 3), i * 3); col.set(o[3]); c.set([col.r, col.g, col.b], i * 3); r[i] = o[4] ?? R(); }
+      const g = new T.BufferGeometry();
+      g.setAttribute('position', new T.BufferAttribute(p, 3)); g.setAttribute('aCol', new T.BufferAttribute(c, 3)); g.setAttribute('aR', new T.BufferAttribute(r, 1));
+      const m = new T.ShaderMaterial({ transparent: true, depthWrite: false, blending: T.AdditiveBlending, uniforms: Object.assign({ uPR: { value: PR }, uT: { value: 0 } }, uni),
+        vertexShader: `attribute vec3 aCol; attribute float aR; uniform float uPR; uniform float uT; varying vec3 vC; varying float vA; varying float vR;
+          ${frag.vdecl || ''}
+          void main(){ vC = aCol; vR = aR; vA = 1.; float sz = 2.;
+            ${frag.v}
+            gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); gl_PointSize = sz*uPR; }`,
+        fragmentShader: `varying vec3 vC; varying float vA; void main(){ float d = length(gl_PointCoord*2.-1.); if(d>1.) discard; gl_FragColor = vec4(vC, pow(1.-d,1.6)*vA); }` });
+      const pts = new T.Points(g, m); pts.frustumCulled = false; root.add(pts); return pts;
+    };
+    const gal = mk(40000, () => {
+      if (R() < .2) { const r = Math.pow(R(), 1.5) * .9, a = R() * 6.283; return [Math.cos(a) * r, gauss() * .25, Math.sin(a) * r, R() < .5 ? '#f3d37c' : '#f7e6c4', R()]; }
+      const arm = Math.floor(R() * 4), r = .6 + Math.pow(R(), .8) * 4.4, a = arm * 1.5708 + r * .85 + gauss() * (.5 / (r * .4 + .5) + .12);
+      return [Math.cos(a) * r, gauss() * .1, Math.sin(a) * r, R() < .06 ? '#f19a82' : R() < .5 ? '#9fb8d8' : '#d9e6ff', R()];
+    }, { vdecl: 'uniform float uOp;', v: 'sz = 1.2 + vR*1.6; vA = uOp*(.35 + .5*vR);' }, { uOp: { value: 1 } });
+    const civN = 700;
+    const civ = mk(civN, i => {
+      if (i === 0) return [SUN.x, SUN.y, SUN.z, '#9dffc8', 0];
+      const arm = Math.floor(R() * 4), r = 1 + Math.pow(R(), .8) * 3.8, a = arm * 1.5708 + r * .85 + gauss() * .35;
+      return [Math.cos(a) * r, gauss() * .06, Math.sin(a) * r, '#9dffc8', .001 + R() * .999];
+    }, { vdecl: 'uniform float uShow; uniform float uKeep; uniform float uDim; uniform float uUs;',
+      v: `float me = step(vR, .0001);
+          float on = (1.-me) * step(vR, uShow) * step(uKeep, vR*0. + (1. - vR)) ;
+          on = (1.-me) * smoothstep(uShow, uShow - .05, vR) * smoothstep(1. - uKeep - .05, 1. - uKeep, 1. - vR);
+          float tw = .75 + .25*sin(uT*3. + vR*80.);
+          vA = max(on*tw*(1. - uDim*.8), me*uUs*(.7 + .3*sin(uT*4.)));
+          sz = mix(6., 11., me) * (me > .5 ? 1. + .3*sin(uT*4.) : 1.);` },
+      { uShow: { value: 0 }, uKeep: { value: 1 }, uDim: { value: 0 }, uUs: { value: 1 } });
+    const bubbleMat = new T.MeshBasicMaterial({ color: '#9dffc8', wireframe: true, transparent: true, opacity: 0 });
+    const bubble = new T.Mesh(new T.SphereGeometry(1, 24, 16), bubbleMat);
+    bubble.position.copy(SUN); bubble.scale.setScalar(5 * 110 / 50000); root.add(bubble);
+
+    const S = [
+      { show: 0, keep: 1, dim: 0, tgt: 'c', d: 13, bub: 0 },
+      { show: 1, keep: 1, dim: 0, tgt: 'c', d: 11, bub: 0 },
+      { show: 1, keep: .04, dim: 0, tgt: 'c', d: 11, bub: 0 },
+      { show: 1, keep: .04, dim: 0, tgt: 's', d: .16, bub: 1 },
+      { show: 0, keep: 1, dim: 0, tgt: 'c', d: 10, bub: 0 },
+      { show: .35, keep: 1, dim: .75, tgt: 's', d: 2.2, bub: 0 },
+      { show: 0, keep: 1, dim: 0, tgt: 'c', d: 14, bub: 0 }
+    ];
+    this.onResize = () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); };
+    window.addEventListener('resize', this.onResize);
+    const ss = x => x * x * (3 - 2 * x), lerp = (a, b, k) => a + (b - a) * k;
+    const look = new T.Vector3(), tv = new T.Vector3(), v3 = new T.Vector3(), C0 = new T.Vector3();
+    let cur = 0, dist = 13; const t0 = performance.now();
+    const loop = () => {
+      if (this.dead) return;
+      this.raf = requestAnimationFrame(loop);
+      const t = (performance.now() - t0) / 1000;
+      let target;
+      if (this.preview) { const q = (t * .18) % 12; target = q < 6 ? q : 12 - q; }
+      else { const x = scrollY / (1.4 * innerHeight), fl = Math.floor(x); target = Math.min(6, fl + ss(Math.min(1, Math.max(0, (x - fl - .3) / .7)))); }
+      cur += (target - cur) * (this.preview ? 1 : .06);
+      const i0 = Math.min(5, Math.floor(cur)), fr = ss(cur - i0), a = S[i0], b = S[i0 + 1];
+      const cu = civ.material.uniforms;
+      cu.uShow.value = lerp(a.show, b.show, fr) * 1.05; cu.uKeep.value = lerp(a.keep, b.keep, fr); cu.uDim.value = lerp(a.dim, b.dim, fr);
+      cu.uT.value = t; gal.material.uniforms.uT.value = t;
+      bubbleMat.opacity = lerp(a.bub, b.bub, fr) * .5;
+      const ta = a.tgt === 's' ? SUN : C0, tb = b.tgt === 's' ? SUN : C0;
+      tv.copy(ta).lerp(tb, fr);
+      const dTarget = Math.exp(lerp(Math.log(a.d), Math.log(b.d), fr));
+      dist += (dTarget - dist) * .12; look.lerp(tv, .12);
+      root.rotation.y = t * .01;
+      const wide = innerWidth > 960 && !this.preview, yaw = .6 + t * .02, pitch = .75;
+      const off = new T.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch)).multiplyScalar(dist);
+      const lw = look.clone().applyMatrix4(root.matrixWorld);
+      camera.position.copy(lw).add(off); camera.lookAt(lw);
+      if (wide) { camera.setViewOffset(innerWidth, innerHeight, -innerWidth * .16, 0, innerWidth, innerHeight); } else camera.clearViewOffset();
+      renderer.render(scene, camera);
+      const shown = Math.max(1, Math.round((civN - 1) * Math.max(0, Math.min(1, cu.uShow.value)) * Math.min(1, cu.uKeep.value)) + 1);
+      if (this.countRef.current) this.countRef.current.textContent = shown === 1 ? '1 (us)' : shown.toLocaleString('en-US');
+      const lab = this.labRef.current;
+      if (lab) {
+        v3.copy(SUN).applyMatrix4(root.matrixWorld).project(camera);
+        lab.style.transform = `translate(${(v3.x * .5 + .5) * innerWidth + 10}px, ${(-v3.y * .5 + .5) * innerHeight - 8}px)`;
+        lab.style.opacity = this.preview ? 0 : 1;
+      }
+      const idx = Math.round(cur); if (idx !== this.state.idx) this.setState({ idx });
+    };
+    loop();
+  }
+
+  renderVals() {
+    const idx = this.state.idx, vote = this.state.vote;
+    return {
+      mountRef: this.mountRef, labRef: this.labRef, countRef: this.countRef, showUI: this.state.showUI,
+      labText: idx === 3 ? 'Our radio bubble, ~110 light years' : 'Us',
+      sections: this.stages.map((s, i) => ({ label: '0' + i + ' ' + s[0], tag: s[1], title: s[2], body: s[3] })),
+      rail: this.stages.map((s, i) => ({
+        label: s[0], op: i === idx ? 1 : 0.35, w: i === idx ? '28px' : '12px', bg: i === idx ? '#9dffc8' : 'rgba(236,235,230,.4)',
+        go: () => window.scrollTo({ top: i * 1.4 * innerHeight, behavior: 'smooth' })
+      })),
+      options: this.opts.map((name, i) => ({
+        name, mark: vote === i ? 'Your pick' : '',
+        bg: vote === i ? '#9dffc8' : 'rgba(236,235,230,.04)', fg: vote === i ? '#07080c' : '#ecebe6',
+        border: vote === i ? '#9dffc8' : 'rgba(236,235,230,.14)',
+        pick: () => { this.setState({ vote: i }); try { localStorage.setItem('fermi-vote', String(i)); } catch (e) {} }
+      })),
+      verdict: vote === null || vote === undefined ? 'Pick one to see what it says about you.' : 'You are ' + this.verdicts[vote].charAt(0).toLowerCase() + this.verdicts[vote].slice(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

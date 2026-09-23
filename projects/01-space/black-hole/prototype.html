@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../../_shared/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000;color:#ecebe6;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#ecebe6;text-decoration:none}
+a:hover{color:#f3d37c}
+::selection{background:#f19a82;color:#000}
+</style>
+</helmet>
+<div ref="{{ mountRef }}" style="position:fixed;inset:0;z-index:0;pointer-events:none"></div>
+
+<sc-if value="{{ showUI }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;top:16px;left:16px;right:16px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+    <a href="../../../pages/projects-hub/prototype.html#space" style="pointer-events:auto;padding:10px 16px;border-radius:999px;background:rgba(236,235,230,.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(236,235,230,.14);font-weight:700;font-size:14px">← Projects</a>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">Black Hole</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a9aab2">Space · real-time light bending</span>
+    </div>
+  </div>
+
+  <div style="position:fixed;left:clamp(20px,5vw,72px);bottom:22px;z-index:10;display:flex;gap:32px;flex-wrap:wrap;pointer-events:none">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a9aab2;text-transform:uppercase;letter-spacing:.08em">Distance to horizon</span>
+      <span ref="{{ distRef }}" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:#f3d37c">–</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a9aab2;text-transform:uppercase;letter-spacing:.08em">1 hour for you =</span>
+      <span ref="{{ timeRef }}" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:#9fd8e0">–</span>
+    </div>
+  </div>
+
+  <div style="position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+    <sc-for list="{{ rail }}" as="r" hint-placeholder-count="6">
+      <button onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;cursor:pointer;padding:4px 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#ecebe6">
+        <span style="opacity:{{ r.op }};transition:opacity .3s">{{ r.label }}</span>
+        <span style="height:2px;width:{{ r.w }};background:{{ r.bg }};border-radius:2px;transition:width .3s"></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <main style="position:relative;z-index:1">
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="6">
+      <section data-screen-label="{{ s.label }}" style="height:140vh">
+        <div style="position:sticky;top:0;height:100vh;display:flex;align-items:{{ cardAlign }};padding:{{ cardPad }};box-sizing:border-box">
+          <div style="max-width:440px;display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:26px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(236,235,230,.1)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f19a82">{{ s.tag }}</span>
+            <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.04em;font-weight:800;text-wrap:balance">{{ s.title }}</h2>
+            <p style="margin:0;font-size:17px;line-height:1.6;color:#c9c8c2;text-wrap:pretty">{{ s.body }}</p>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+    <section data-screen-label="Next" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 24px;box-sizing:border-box">
+      <div style="max-width:720px;display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f19a82">You crossed the event horizon</span>
+        <h2 style="margin:0;font-size:clamp(40px,6vw,88px);line-height:.95;letter-spacing:-.045em;font-weight:800;text-wrap:balance">There's no way back out.</h2>
+        <p style="margin:0;font-size:18px;line-height:1.6;color:#c9c8c2;max-width:520px;text-wrap:pretty">From outside, nobody would ever see you cross. Your image would slow down, turn red and fade at the edge.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+          <a href="../cosmic-zoom/prototype.html" style="padding:15px 24px;border-radius:999px;background:#ecebe6;color:#000;font-weight:700;font-size:15px" style-hover="color:#000;transform:translateY(-2px)">Next: Cosmic Zoom →</a>
+          <a href="../../../pages/projects-hub/prototype.html" style="padding:15px 24px;border-radius:999px;border:1px solid rgba(236,235,230,.3);font-weight:700;font-size:15px">All projects</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showUI: true, idx: 0 };
+  mountRef = React.createRef(); distRef = React.createRef(); timeRef = React.createRef();
+  RS = 1.27e7;
+  stages = [
+    ['Sgr A*', '00 · 26,000 light years away', 'Sagittarius A*', 'At the centre of our galaxy sits a black hole about 4 million times the mass of the Sun. Scroll to fly toward it. Everything you see is being calculated live, ray by ray.', 60],
+    ['Disk', '01 · The accretion disk', 'A ring of fire', 'Gas spiralling in heats up to millions of degrees and glows. The side rushing toward you looks brighter and bluer, and the side moving away looks dimmer.', 28],
+    ['Lensing', '02 · Gravitational lensing', 'Light bends', "Gravity bends light. That's why you can see the far side of the disk, wrapped over the top and under the bottom of the shadow.", 13],
+    ['Photon sphere', '03 · 1.5 × horizon radius', 'Light in orbit', 'At one and a half times the horizon radius, light itself can circle the black hole. The thin bright ring hugging the shadow is light that has looped around at least once.', 5.5],
+    ['Time', '04 · Time dilation', 'Time slows down', 'Near the horizon, your clock runs slow compared to the rest of the universe. Watch the counter at the bottom: an hour for you is longer and longer for everyone far away.', 2.6],
+    ['Horizon', '05 · The event horizon', 'The point of no return', "Inside this line, escaping would mean going faster than light. For a black hole this big you wouldn't even feel it: the stretching only becomes fatal much further in.", 1.35]
+  ];
+
+  componentDidMount() {
+    this.preview = new URLSearchParams(location.search).has('preview');
+    this.setState({ showUI: !this.preview });
+    this.init();
+  }
+  componentWillUnmount() {
+    this.dead = true; cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.onResize); window.removeEventListener('pointermove', this.onMove);
+    if (this.renderer) this.renderer.dispose();
+  }
+
+  fmtKm(km) {
+    const f = (n, d) => n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
+    if (km < 1e9) return f(km / 1e6, 0) + ' million km';
+    return f(km / 1e9, 1) + ' billion km';
+  }
+
+  async init() {
+    const T = await import('https://unpkg.com/three@0.160.0/build/three.module.js');
+    if (this.dead || !this.mountRef.current) return;
+    const renderer = new T.WebGLRenderer({ antialias: false });
+    const scale = () => Math.min(1, 1100 / Math.max(innerWidth, innerHeight)) * Math.min(devicePixelRatio, 1.5);
+    renderer.setPixelRatio(scale()); renderer.setSize(innerWidth, innerHeight);
+    this.mountRef.current.appendChild(renderer.domElement); this.renderer = renderer;
+    const scene = new T.Scene(), cam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const U = { uRes: { value: new T.Vector2() }, uCam: { value: new T.Vector3() }, uF: { value: new T.Vector3() }, uR: { value: new T.Vector3() }, uU: { value: new T.Vector3() }, uTime: { value: 0 }, uShift: { value: 0 }, uShiftY: { value: 0 } };
+    const mat = new T.ShaderMaterial({ uniforms: U,
+      vertexShader: `void main(){ gl_Position = vec4(position.xy, 0., 1.); }`,
+      fragmentShader: `
+        precision highp float;
+        uniform vec2 uRes; uniform vec3 uCam, uF, uR, uU; uniform float uTime, uShift, uShiftY;
+        float hash(vec3 p){ p = fract(p*.3183099 + .1); p *= 17.; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+        float n2(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
+          float a=hash(vec3(i,1.)), b=hash(vec3(i+vec2(1,0),1.)), c=hash(vec3(i+vec2(0,1),1.)), d=hash(vec3(i+1.,1.));
+          return mix(mix(a,b,f.x), mix(c,d,f.x), f.y); }
+        vec3 sky(vec3 d){
+          vec3 c = vec3(0.);
+          for(int k=0;k<2;k++){ float s = k==0 ? 90. : 220.; vec3 q = d*s, id = floor(q); float h = hash(id);
+            if(h > .975){ float b = smoothstep(.35, 0., length(fract(q)-.5)); c += b*mix(vec3(1.,.8,.6), vec3(.7,.82,1.), hash(id+3.))*(h-.975)*40.; } }
+          float band = pow(max(0., 1. - abs(d.y*.8 + d.z*.35)), 8.);
+          c += vec3(.22,.18,.3)*band*(.5 + .5*n2(d.xz*6. + d.y*3.));
+          return c;
+        }
+        void main(){
+          vec2 uv = (gl_FragCoord.xy - .5*uRes)/uRes.y; uv.x += uShift; uv.y += uShiftY;
+          vec3 dir = normalize(uR*uv.x + uU*uv.y + uF*1.5);
+          vec3 pos = uCam, col = vec3(0.); float alpha = 1.;
+          vec3 hv = cross(pos, dir); float h2 = dot(hv, hv);
+          for(int i=0;i<260;i++){
+            float r = length(pos);
+            float dt = clamp(.07*r, .015, 1.5);
+            vec3 prev = pos;
+            dir += -1.5*h2*pos/pow(r, 5.)*dt;
+            pos += dir*dt;
+            if(prev.y*pos.y < 0.){
+              vec3 p = mix(prev, pos, prev.y/(prev.y - pos.y)); float pr = length(p.xz);
+              if(pr > 2.6 && pr < 15.){
+                float ang = atan(p.z, p.x);
+                float swirl = n2(vec2(pr*2.2, ang*3. + uTime*.9/pr*6.)) * .6 + n2(vec2(pr*7., ang*9. + uTime*1.5/pr*6.))*.4;
+                float I = pow(2.6/pr, 1.6)*2.6*(.45 + .9*swirl);
+                vec3 vel = normalize(vec3(-p.z, 0., p.x))*sqrt(.5/pr);
+                float dop = 1. + 1.4*dot(vel, -normalize(dir));
+                I *= pow(max(dop, .05), 3.);
+                vec3 dc = mix(vec3(1.,.32,.08), vec3(1.,.86,.62), clamp(pow(2.6/pr,1.2)*dop*.9, 0., 1.));
+                dc = mix(dc, vec3(.75,.85,1.), clamp((dop - 1.15)*1.2, 0., .5));
+                float a = clamp(I*.9, 0., .96)*smoothstep(15., 9., pr)*smoothstep(2.6, 3.3, pr);
+                col += alpha*dc*I*a; alpha *= 1. - a;
+              }
+            }
+            if(r < 1.){ alpha = 0.; break; }
+            if(r > 90. || alpha < .01) break;
+          }
+          col += alpha*sky(normalize(dir));
+          col = 1. - exp(-col*1.3);
+          gl_FragColor = vec4(pow(col, vec3(.9)), 1.);
+        }` });
+    scene.add(new T.Mesh(new T.PlaneGeometry(2, 2), mat));
+    const mouse = { x: 0, y: 0 };
+    this.onMove = e => { mouse.x = e.clientX / innerWidth - .5; mouse.y = e.clientY / innerHeight - .5; };
+    this.onResize = () => { renderer.setPixelRatio(scale()); renderer.setSize(innerWidth, innerHeight); this.setState({ narrow: innerWidth <= 700 }); };
+    this.setState({ narrow: innerWidth <= 700 });
+    window.addEventListener('pointermove', this.onMove); window.addEventListener('resize', this.onResize);
+    const ss = x => x * x * (3 - 2 * x), rs = this.stages.map(s => s[4]);
+    const F = new T.Vector3(), Rv = new T.Vector3(), Uv = new T.Vector3(), up = new T.Vector3(0, 1, 0);
+    let cur = 0, yaw = 0; const t0 = performance.now(); let last = t0;
+    const loop = () => {
+      if (this.dead) return;
+      this.raf = requestAnimationFrame(loop);
+      const now = performance.now(), t = (now - t0) / 1000, dt = Math.min(.05, (now - last) / 1000); last = now;
+      let target;
+      if (this.preview) { const q = (t * .15) % 8; target = q < 4 ? q : 8 - q; }
+      else { const x = scrollY / (1.4 * innerHeight), fl = Math.floor(x); target = Math.min(5, fl + ss(Math.min(1, Math.max(0, (x - fl - .3) / .7)))); }
+      cur += (target - cur) * (this.preview ? 1 : .06);
+      const i0 = Math.min(4, Math.floor(cur)), fr = cur - i0;
+      const r = Math.exp(Math.log(rs[i0]) + (Math.log(rs[i0 + 1]) - Math.log(rs[i0])) * fr);
+      yaw += dt * .04;
+      const pitch = .09 + mouse.y * .12 + Math.max(0, 1 - cur) * .08, yw = yaw + mouse.x * .5;
+      U.uCam.value.set(Math.sin(yw) * Math.cos(pitch) * r, Math.sin(pitch) * r, Math.cos(yw) * Math.cos(pitch) * r);
+      F.copy(U.uCam.value).multiplyScalar(-1).normalize(); Rv.crossVectors(F, up).normalize(); Uv.crossVectors(Rv, F);
+      U.uF.value.copy(F); U.uR.value.copy(Rv); U.uU.value.copy(Uv);
+      let sx = 0, sy = 0;
+      if (!this.preview) {
+        if (innerWidth > 700) {
+          const cardR = Math.min(72, Math.max(20, innerWidth * .05)) + Math.min(496, innerWidth - 40);
+          sx = -((cardR + (innerWidth - cardR) / 2) - innerWidth / 2) / innerHeight;
+        } else sy = -.22;
+      }
+      U.uShift.value += (sx - U.uShift.value) * .08;
+      U.uShiftY.value += (sy - U.uShiftY.value) * .08;
+      U.uTime.value = t; renderer.getDrawingBufferSize(U.uRes.value);
+      renderer.render(scene, cam);
+      if (this.distRef.current) {
+        this.distRef.current.textContent = this.fmtKm((r - 1) * this.RS);
+        const f = 1 / Math.sqrt(1 - 1 / r);
+        this.timeRef.current.textContent = (f < 1.01 ? f.toFixed(3) : f.toFixed(2)) + ' hours far away';
+      }
+      const idx = Math.round(cur); if (idx !== this.state.idx) this.setState({ idx });
+    };
+    loop();
+  }
+
+  renderVals() {
+    const idx = this.state.idx;
+    return {
+      cardAlign: this.state.narrow ? 'flex-end' : 'center', cardPad: this.state.narrow ? '0 20px 110px' : '0 clamp(20px,5vw,72px)',
+      mountRef: this.mountRef, distRef: this.distRef, timeRef: this.timeRef, showUI: this.state.showUI,
+      sections: this.stages.map((s, i) => ({ label: '0' + i + ' ' + s[0], tag: s[1], title: s[2], body: s[3] })),
+      rail: this.stages.map((s, i) => ({
+        label: s[0], op: i === idx ? 1 : 0.35, w: i === idx ? '28px' : '12px', bg: i === idx ? '#f3d37c' : 'rgba(236,235,230,.4)',
+        go: () => window.scrollTo({ top: i * 1.4 * innerHeight, behavior: 'smooth' })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
