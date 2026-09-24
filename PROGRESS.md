@@ -72,5 +72,12 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 15: hosting = Cloudflare Workers static assets (free). Added `app/wrangler.jsonc` (SPA fallback) and emptied `public/_redirects` (the old catch-all rule breaks `wrangler deploy`). In the Cloudflare project settings: Root directory = `app`, build command `npm run build`, deploy command `npx wrangler deploy`. Future: email list = Workers + D1 (free tier: 5M reads/day, 100k writes/day, 5 GB).
 
+- Session 16: NEW DESIGN uploaded (updated handoff zip) — adds a Contact page and redesigns Home to dark. Built step 1 of 2 (owner chose "whole thing in order"): the Contact page (`/contact`), live. NOT yet done: the Home redesign (dark theme, new particle shapes, "Selected projects" section) — say "next" to continue with that.
+  - `pages/ContactPage.tsx` + `scenes/contact/` (starfield, rotating planet horizon, pulsing beacon, signal-ring pool, send beam), `lib/contact.ts` (+tests), `content/contact.ts`.
+  - Form service: **Web3Forms** (owner's choice). Needs `VITE_FORM_KEY` — see `.env.example`. **Not set yet, so the form will fail to send until it is.** Get a free key at web3forms.com, then add it in Cloudflare: project → Settings → Environment variables → redeploy. Test a real send afterward.
+  - `content/contact.ts`: `ownerTimezone` is a placeholder (`'Europe/London'`, the design's own default) — set it once the owner decides, e.g. `'America/Toronto'`.
+  - `TopNav` now has a dark variant (currently only for `/contact`; will extend to `/` once Home goes dark). Its "Open to work" pill now links to `/contact` everywhere (was `/#contact`).
+  - Home page itself is UNCHANGED this session — still light, still has its own `#contact` section with the old mailto pill. That gets replaced when the Home redesign step runs.
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

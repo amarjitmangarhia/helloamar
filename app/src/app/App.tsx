@@ -7,6 +7,7 @@ import Home from '../pages/Home'
 // Each project route is lazy-loaded so the home page never downloads other scenes.
 const Projects = lazy(() => import('../pages/Projects'))
 const ProjectPage = lazy(() => import('../pages/ProjectPage'))
+const Contact = lazy(() => import('../pages/ContactPage'))
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:slug" element={<ProjectPage />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>
