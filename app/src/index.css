@@ -16,6 +16,7 @@
 
   --color-seafoam: #6cc3cf;
   --color-coral: #f19a82;
+  --color-coral-deep: #d9634a; /* coral for big text: ~3.2:1 on the cream background */
   --color-butter: #f3d37c;
   --color-sky: #9fd8e0;
   --color-lilac: #b5a3ea;
@@ -62,7 +63,10 @@
       repeating-linear-gradient(135deg, rgba(30, 31, 36, 0.05) 0 10px, rgba(30, 31, 36, 0) 10px 20px),
       var(--color-media);
   }
+  .rise { animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: var(--d, 0s); }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
   @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; }
     .lift, .lift-sm { transition: none; }
     .lift:hover, .lift-sm:hover { transform: none; }
   }

@@ -1,5 +1,7 @@
 export const hero = {
-  title: (name: string) => `Hi, I'm ${name}. I write software because I love it.`,
+  badge: (name: string) => `Hi, I'm ${name}`,
+  lineA: 'I write software',
+  lineB: 'because I love it.',
   lead: "Software developer. Coding is the part of the day I look forward to. This site is where I keep what I build and what I'm learning.",
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Link } from 'react-router'
 import { Canvas } from '@react-three/fiber'
 import { ParticleField } from '../scenes/home/ParticleField'
@@ -35,16 +35,24 @@ export default function Home() {
         {/* 1 Hero */}
         <section id="top" data-shape="0" className="flex min-h-screen items-center px-6 pt-[120px] pb-20">
           <div className={shell}>
-            <div className="flex max-w-[660px] flex-col gap-7">
+            <div className="flex max-w-[700px] flex-col gap-7">
               <div className="flex flex-wrap gap-3.5 font-mono text-[13px] text-muted">
                 <span>Portfolio / {site.year}</span>
                 <span>{site.city}</span>
               </div>
-              <h1 className="m-0 text-[clamp(46px,7.2vw,104px)] leading-[.95] font-extrabold tracking-[-.045em] text-balance">
-                {hero.title(site.name)}
+              <h1 className="m-0 flex flex-col items-start gap-5">
+                <span className="rise inline-flex items-center gap-2.5 rounded-full bg-ink py-2 pr-5 pl-4 text-[clamp(15px,1.4vw,19px)] font-extrabold tracking-[-.02em] text-bg">
+                  <span className="size-2 rounded-full bg-seafoam" />
+                  {hero.badge(site.name)}
+                </span>
+                <span className="sr-only">. </span>
+                <span className="text-[clamp(38px,5.2vw,74px)] leading-[.98] font-extrabold tracking-[-.045em] text-balance">
+                  <span className="rise block" style={{ '--d': '.08s' } as CSSProperties}>{hero.lineA}</span>
+                  <span className="rise block text-coral-deep" style={{ '--d': '.16s' } as CSSProperties}>{hero.lineB}</span>
+                </span>
               </h1>
-              <p className="m-0 max-w-[520px] text-[clamp(17px,1.5vw,20px)] leading-[1.55] text-pretty text-text-2">{hero.lead}</p>
-              <div className="flex flex-wrap gap-3">
+              <p className="rise m-0 max-w-[520px] text-[clamp(17px,1.5vw,20px)] leading-[1.55] text-pretty text-text-2" style={{ '--d': '.26s' } as CSSProperties}>{hero.lead}</p>
+              <div className="rise flex flex-wrap gap-3" style={{ '--d': '.34s' } as CSSProperties}>
                 <a href="#work" className="lift-sm rounded-full bg-ink px-6 py-[15px] text-[15px] font-bold text-bg shadow-[inset_0_1px_0_rgba(255,255,255,.18),0_12px_24px_-12px_rgba(30,31,36,.6)]">
                   What I do
                 </a>

@@ -64,5 +64,7 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 11: added the helloamar logo (wordmark in nav + favicon).
 
+- Session 12: new hero headline (owner picked option D, badge): ink pill "Hi, I'm Amar" + big "I write software / because I love it." with staggered rise-in (off for reduced motion). Copy lives in `content/home.ts` (`hero`). New token `--color-coral-deep` for large coral text.
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
