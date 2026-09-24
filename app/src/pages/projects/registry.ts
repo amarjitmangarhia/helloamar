@@ -4,4 +4,5 @@ import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 // Add one line per project as it is finished.
 export const projectPages: Record<string, LazyExoticComponent<ComponentType>> = {
   'particle-type': lazy(() => import('./ParticleTypePage')),
+  'weather-globe': lazy(() => import('./WeatherGlobePage')),
 }

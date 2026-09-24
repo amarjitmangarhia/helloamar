@@ -10,7 +10,7 @@ export const projects: Project[] = [
   { slug: 'cosmic-zoom', title: 'Cosmic Zoom', category: 'Space', status: 'todo' },
   { slug: 'black-hole', title: 'Black Hole', category: 'Space', status: 'todo' },
   { slug: 'the-deep', title: 'The Deep', category: 'Ocean', status: 'todo' },
-  { slug: 'weather-globe', title: 'Weather Globe', category: 'Ocean', status: 'todo' },
+  { slug: 'weather-globe', title: 'Weather Globe', category: 'Ocean', status: 'done' },
   { slug: 'fermi-paradox', title: 'Where is everybody?', category: 'Aliens', status: 'todo' },
   { slug: 'pyramid', title: 'Build a Pyramid', category: 'Ancient', status: 'todo' },
   { slug: 'particle-type', title: 'Particle Type', category: 'Play', status: 'done' },

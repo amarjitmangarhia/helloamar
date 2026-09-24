@@ -22,7 +22,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Cosmic Zoom | `projects/01-space/cosmic-zoom` | ⬜ | ⬜ | placeholder | ⬜ |
 | Black Hole | `projects/01-space/black-hole` | ⬜ | ⬜ | placeholder | ⬜ |
 | The Deep | `projects/02-ocean/the-deep` | ⬜ | ⬜ | placeholder | ⬜ |
-| Weather Globe | `projects/02-ocean/weather-globe` | ⬜ | ⬜ | placeholder | ⬜ |
+| Weather Globe | `projects/02-ocean/weather-globe` | ✅ | ✅ | ✅ `/projects/weather-globe` | 🟡 owner to review |
 | Fermi Paradox | `projects/03-aliens/fermi-paradox` | ⬜ | ⬜ | placeholder | ⬜ |
 | Pyramid Builder | `projects/04-ancient/pyramid-builder` | – | ⬜ | placeholder | ⬜ |
 | Particle Type | `projects/05-play/particle-type` | ✅ | ✅ | ✅ `/projects/particle-type` | 🟡 owner to review |
@@ -46,6 +46,8 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 - Session 2: built `app/` foundation + Home page. Build passes. Next: owner runs `npm run dev` and reviews Home.
 
 - Session 3: ported Particle Type (`app/src/scenes/particle-type/`, page in `app/src/pages/projects/`). Added `pages/projects/registry.ts`: to finish a project, add one line there. TopNav hides on project pages. Delivered as a `deploy.sh` drop (owner's standing rule: files + deploy.sh that copies, checks, commits locally, never pushes, then deletes itself).
+
+- Session 4: ported Weather Globe (`app/src/scenes/weather-globe/`, page `pages/projects/WeatherGlobePage.tsx`, `lib/weather.ts` + Vitest tests, `hooks/useWeather.ts`, `content/cities.ts` = the 10 pins). Added deps `world-atlas`, `topojson-client`, `@types/topojson-client`. Open-Meteo is free but non-commercial. Tip: put your own city first in `content/cities.ts`.
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
