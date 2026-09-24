@@ -18,6 +18,8 @@ const smooth = (a: number, b: number, x: number) => {
 }
 // [x, y, scale] of the particle group per section (wide screens)
 const layoutWide = [[1.6, 0, 1], [0, 0, 1.3], [-1.75, 0, 1], [1.7, 0, 0.95], [0, -0.35, 1.25]]
+// phones (<= 700px): the ball sits in the upper part of the screen for the hero (text is at the bottom)
+const layoutPhone = [[0, 0.85, 0.62], [0, 0, 0.6], [0, 0, 0.6], [0, 0, 0.55], [0, -0.1, 0.7]]
 
 function buildGeometry(N: number) {
   const S = genShapes(N)
@@ -118,12 +120,15 @@ export function ParticleField({ config, reducedMotion, onActive }: Props) {
     u.uIntro.value = reducedMotion ? 1 : Math.min(1, time / 2.2)
     u.uPR.value = state.gl.getPixelRatio()
 
-    const wide = window.innerWidth > 960
-    const la = layoutWide[i0]
-    const lb = layoutWide[i0 + 1]
+    const vw = window.innerWidth
+    const wide = vw > 960
+    const phone = vw <= 700
+    const L = phone ? layoutPhone : layoutWide
+    const la = L[i0]
+    const lb = L[i0 + 1]
     const tx = wide ? la[0] + (lb[0] - la[0]) * tt : 0
     const ty = la[1] + (lb[1] - la[1]) * tt
-    const ts = (la[2] + (lb[2] - la[2]) * tt) * (wide ? 1 : 0.72)
+    const ts = (la[2] + (lb[2] - la[2]) * tt) * (wide || phone ? 1 : 0.72)
     const e2 = reducedMotion ? 1 : 0.08
     s.x += (tx - s.x) * e2
     s.y += (ty - s.y) * e2

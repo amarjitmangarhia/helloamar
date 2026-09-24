@@ -177,6 +177,7 @@ export function FermiScene({ update, onFrame, labelRef, preview, reducedMotion }
     const w = window.innerWidth
     const h = window.innerHeight
     if (w > 960 && !preview) cam.setViewOffset(w, h, -w * 0.16, 0, w, h)
+    else if (w <= 700 && !preview) cam.setViewOffset(w, h, 0, h * 0.18, w, h) // phones: lift the galaxy above the text card
     else cam.clearViewOffset()
     cam.updateMatrixWorld()
 

@@ -33,7 +33,7 @@ export default function Home() {
 
       <main className="relative z-[1]">
         {/* 1 Hero */}
-        <section id="top" data-shape="0" className="flex min-h-screen items-center px-6 pt-[120px] pb-20">
+        <section id="top" data-shape="0" className="flex min-h-svh items-end px-6 pt-[120px] pb-14 md:items-center md:pb-20">
           <div className={shell}>
             <div className="flex max-w-[700px] flex-col gap-7">
               <div className="flex flex-wrap gap-3.5 font-mono text-[13px] text-muted">
@@ -46,7 +46,7 @@ export default function Home() {
                   {hero.badge(site.name)}
                 </span>
                 <span className="sr-only">. </span>
-                <span className="text-[clamp(38px,5.2vw,74px)] leading-[.98] font-extrabold tracking-[-.045em] text-balance">
+                <span className="text-[clamp(32px,5.2vw,74px)] leading-[.98] font-extrabold tracking-[-.045em] text-balance">
                   <span className="rise block" style={{ '--d': '.08s' } as CSSProperties}>{hero.lineA}</span>
                   <span className="rise block text-coral-deep" style={{ '--d': '.16s' } as CSSProperties}>{hero.lineB}</span>
                 </span>
@@ -65,7 +65,7 @@ export default function Home() {
         </section>
 
         {/* 2 What I do */}
-        <section id="work" data-shape="1" className="px-6 py-[120px]">
+        <section id="work" data-shape="1" className="px-6 py-20 md:py-[120px]">
           <div className={`${shell} flex flex-col gap-12`}>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <h2 className={h2}>What I do</h2>
@@ -104,9 +104,9 @@ export default function Home() {
         </section>
 
         {/* 3 About: left column stays empty so the particles show through */}
-        <section id="about" data-shape="2" className="flex min-h-screen items-center px-6 py-[120px]">
+        <section id="about" data-shape="2" className="flex min-h-svh items-center px-6 py-20 md:py-[120px]">
           <div className={`${shell} grid gap-10 [grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))]`}>
-            <div />
+            <div className="hidden min-[1048px]:block" />
             <div className="glass flex flex-col gap-7 rounded-[32px] p-8">
               <div className="flex items-center gap-5">
                 <div className="media-slot flex size-[88px] shrink-0 items-center justify-center rounded-full font-mono text-[10px] text-placeholder">portrait</div>
@@ -127,7 +127,7 @@ export default function Home() {
         </section>
 
         {/* 4 Learning */}
-        <section id="playground" data-shape="3" className="flex min-h-screen items-center px-6 py-[120px]">
+        <section id="playground" data-shape="3" className="flex min-h-svh items-center px-6 py-20 md:py-[120px]">
           <div className={`${shell} flex flex-col gap-10`}>
             <div className="flex max-w-[560px] flex-col gap-4">
               <h2 className={h2}>Learning</h2>
@@ -145,7 +145,7 @@ export default function Home() {
         </section>
 
         {/* 5 Contact */}
-        <section id="contact" data-shape="4" className="flex min-h-screen flex-col justify-center px-6 pt-[120px] pb-10">
+        <section id="contact" data-shape="4" className="flex min-h-svh flex-col justify-center px-6 pt-20 pb-10 md:pt-[120px]">
           <div className={`${shell} flex flex-col items-center gap-8 text-center`}>
             <span className="font-mono text-[13px] text-muted">Work, collabs, or just a hello</span>
             <h2 className="m-0 text-[clamp(48px,8vw,120px)] leading-[.95] font-extrabold tracking-[-.05em] text-balance">Let's make something.</h2>
@@ -161,7 +161,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className={`${shell} mt-[120px] flex flex-wrap justify-between gap-4 font-mono text-xs text-muted`}>
+          <div className={`${shell} mt-16 md:mt-[120px] flex flex-wrap justify-between gap-4 font-mono text-xs text-muted`}>
             <span>© {site.year} {site.name}</span>
             <span>Made with three.js and too much coffee</span>
           </div>
@@ -169,7 +169,7 @@ export default function Home() {
       </main>
 
       {/* shape indicator */}
-      <div className="pointer-events-none fixed bottom-[22px] left-6 z-[5] flex items-center gap-2.5 font-mono text-xs text-text-2">
+      <div className="pointer-events-none fixed bottom-[22px] left-6 z-[5] flex items-center max-sm:hidden gap-2.5 font-mono text-xs text-text-2">
         <span className="font-medium text-ink">0{active + 1}</span>
         <span className="h-px w-7 bg-ink" />
         <span>{shapeNames[active]}</span>

@@ -234,7 +234,7 @@ function updateRig(rig: Rig, cur: number, t: number, wide: boolean, gl: THREE.We
   rig.floor.position.y = -3.2 - (5 - cur) * 2.2
 
   camera.position.x = Math.sin(t * 0.12) * 0.25
-  camera.lookAt(0, 0, -2)
+  camera.lookAt(0, window.innerWidth <= 700 ? -1.5 : 0, -2) // phones: lift the scene above the bottom text card
 }
 
 type Props = {

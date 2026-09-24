@@ -48,6 +48,7 @@ export default function PyramidPage() {
   const [days, setDays] = useState(300)
   const [playing, setPlaying] = useState(preview)
   const [fact, setFact] = useState(0)
+  const [open, setOpen] = useState(false) // phones: crew sliders are collapsed by default
 
   const progress = useRef(0)
   const yearRef = useRef<HTMLSpanElement>(null)
@@ -102,8 +103,9 @@ export default function PyramidPage() {
   )
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-bg-sand" role="img" aria-label="3D model of the Great Pyramid being built block by block">
+    <div className="fixed inset-0 overflow-hidden bg-bg-sand">
       <title>{`Build a Pyramid — ${site.name}`}</title>
+      <div role="img" aria-label="3D model of the Great Pyramid being built block by block" className="fixed inset-0">
       <Canvas
         flat
         shadows
@@ -121,20 +123,31 @@ export default function PyramidPage() {
           onComplete={onComplete}
         />
       </Canvas>
+      </div>
 
       {!preview && (
         <>
           <BackPill title="Build a Pyramid" subtitle="Ancient · Great Pyramid of Giza, c. 2560 BC" category="Ancient" />
-          <div className="fixed bottom-4 left-4 z-10 flex max-h-[calc(100vh-100px)] w-[min(340px,calc(100%-32px))] flex-col gap-[18px] overflow-auto rounded-[26px] border border-ink/[.08] bg-[rgba(250,248,245,.9)] p-[22px] shadow-[0_24px_48px_-28px_rgba(30,31,36,.45)] backdrop-blur-[14px]">
+          <div className="fixed bottom-4 left-4 z-10 flex max-h-[calc(100dvh-100px)] w-[min(340px,calc(100%-32px))] flex-col gap-[18px] overflow-auto rounded-[26px] border border-ink/[.08] bg-[rgba(250,248,245,.9)] p-[22px] shadow-[0_24px_48px_-28px_rgba(30,31,36,.45)] backdrop-blur-[14px]">
             <div className="flex flex-col gap-1.5">
               <span className="text-[22px] font-extrabold tracking-[-.02em]">Could you build it?</span>
-              <span className="text-sm leading-normal text-text-2">
+              <span className="hidden text-sm leading-normal text-text-2 md:block">
                 2.3 million stone blocks, about 2.5 tonnes each. Pick a crew and see how long it takes.
               </span>
             </div>
+            <button
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              className="flex cursor-pointer items-center justify-between rounded-full border-0 bg-ink/[.07] px-4 py-3 text-sm font-bold text-ink md:hidden"
+            >
+              {open ? 'Hide crew settings' : 'Change the crew'}
+              <span aria-hidden="true">{open ? '−' : '+'}</span>
+            </button>
+            <div className={`${open ? 'flex' : 'hidden'} flex-col gap-[18px] md:flex`}>
             <Slider label="Workers" value={workers.toLocaleString('en-US')} min={2000} max={40000} step={500} v={workers} set={setWorkers} />
             <Slider label="Hours per day" value={`${hours} h`} min={6} max={14} step={1} v={hours} set={setHours} />
             <Slider label="Days worked per year" value={String(days)} min={150} max={360} step={10} v={days} set={setDays} />
+            </div>
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-ink/10">
               <Stat label="Build time" value={formatYears(years)} accent />
               <Stat label="One block every" value={formatEvery(every)} />
@@ -158,11 +171,11 @@ export default function PyramidPage() {
                 </button>
               </div>
             </div>
-            <span className="text-xs leading-normal text-muted">
+            <span className="hidden text-xs leading-normal text-muted md:block">
               Rates calibrated so 25,000 workers, 10 h a day, 300 days a year gives the usual estimate of about 20 years. Real crews were
               paid labourers, not slaves.
             </span>
-            {factCard('inline')}
+            {open && factCard('inline')}
           </div>
           {factCard('float')}
         </>

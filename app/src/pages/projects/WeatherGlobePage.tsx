@@ -70,7 +70,7 @@ export default function WeatherGlobePage() {
           <BackPill title="Weather Globe" subtitle="Project 02 · Open-Meteo API + three.js" category="Ocean" />
           <nav
             aria-label="Cities"
-            className="fixed bottom-4 left-4 z-10 flex max-h-[calc(100vh-110px)] w-[min(300px,calc(100%-32px))] flex-col gap-1.5 overflow-auto rounded-[26px] border border-ink/[.08] bg-[rgba(250,248,245,.88)] px-3 pt-[18px] pb-3 shadow-[0_24px_48px_-28px_rgba(30,31,36,.45)] backdrop-blur-[14px]"
+            className="fixed bottom-4 left-4 z-10 hidden max-h-[calc(100dvh-110px)] w-[min(300px,calc(100%-32px))] flex-col gap-1.5 overflow-auto rounded-[26px] border border-ink/[.08] bg-[rgba(250,248,245,.88)] md:flex px-3 pt-[18px] pb-3 shadow-[0_24px_48px_-28px_rgba(30,31,36,.45)] backdrop-blur-[14px]"
           >
             <div className="flex items-baseline justify-between px-2 pb-2">
               <span className="text-base font-extrabold">Right now</span>
@@ -100,7 +100,27 @@ export default function WeatherGlobePage() {
               )
             })}
           </nav>
-          <span className="fixed right-5 bottom-5 z-10 font-mono text-xs text-muted">Drag to spin · pick a city to fly there</span>
+          <nav aria-label="Cities" className="fixed inset-x-0 bottom-0 z-10 flex snap-x gap-2 overflow-x-auto px-4 pt-2 pb-4 md:hidden">
+            {cities.map((c, i) => {
+              const w = data?.[i]
+              return (
+                <button
+                  key={c.name}
+                  aria-pressed={i === selected}
+                  onClick={() => setSelected(selected === i ? -1 : i)}
+                  className={`flex shrink-0 snap-start cursor-pointer items-center gap-2.5 rounded-2xl border border-ink/[.08] px-3.5 py-2.5 text-left text-ink backdrop-blur-[14px] ${i === selected ? 'bg-[rgba(214,210,203,.95)]' : 'bg-[rgba(250,248,245,.9)]'}`}
+                >
+                  <span className="size-2.5 shrink-0 rounded-full" style={{ background: w ? tempHex(w.temp) : '#c9c3ba' }} />
+                  <span className="flex flex-col gap-0.5">
+                    <span className="text-sm font-bold">{c.name}</span>
+                    <span className="text-xs whitespace-nowrap text-muted">{w ? `${describeCode(w.code)} · ${localTime(w.off, Date.now())}` : err ? 'No data' : 'Loading…'}</span>
+                  </span>
+                  <span className="text-base font-extrabold">{w ? Math.round(w.temp) + '°' : '–'}</span>
+                </button>
+              )
+            })}
+          </nav>
+          <span className="fixed right-5 bottom-5 z-10 hidden font-mono text-xs text-muted md:block">Drag to spin · pick a city to fly there</span>
         </>
       )}
     </div>

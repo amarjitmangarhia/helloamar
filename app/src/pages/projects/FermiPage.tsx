@@ -93,7 +93,7 @@ export default function FermiPage() {
       <div
         ref={labelRef}
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[2] flex items-center gap-2 font-mono text-xs whitespace-nowrap text-[#ecebe6] opacity-0"
+        className="pointer-events-none fixed top-0 left-0 z-[2] flex items-center gap-2 font-mono text-xs whitespace-nowrap text-[#ecebe6] opacity-0 max-sm:max-w-[46vw] max-sm:whitespace-normal"
       >
         <span className="h-px w-3.5 bg-[#ecebe6]" />
         {idx === 3 ? 'Our radio bubble, ~110 light years' : 'Us'}

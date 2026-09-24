@@ -53,14 +53,14 @@ export default function ParticleTypePage() {
   return (
     <div
       className="fixed inset-0 overflow-hidden"
-      role="img"
-      aria-label={`Particles forming the word ${word}`}
       onPointerDown={() => setTick((t) => t + 1)}
     >
       <title>{`Particle Type — ${site.name}`}</title>
+      <div role="img" aria-label={`Particles forming the word ${word}`} className="fixed inset-0">
       <Canvas camera={{ fov: 35, near: 0.1, far: 50, position: [0, 0, 7] }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
         <ParticleType word={word} scatterTick={tick} reducedMotion={reduced} />
       </Canvas>
+      </div>
 
       {!preview && (
         <>

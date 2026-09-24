@@ -17,7 +17,7 @@ export function BackPill({ title, subtitle, category, dark }: Props) {
       </Link>
       <div className="pointer-events-none fixed top-4 right-5 z-20 flex flex-col items-end gap-0.5 text-right">
         <span className={`text-lg font-extrabold tracking-[-.02em] ${dark ? 'text-[#ecebe6]' : ''}`}>{title}</span>
-        {subtitle && <span className={`font-mono text-xs ${dark ? 'text-[#c9d6dc]' : 'text-muted'}`}>{subtitle}</span>}
+        {subtitle && <span className={`hidden font-mono text-xs sm:block ${dark ? 'text-[#c9d6dc]' : 'text-muted'}`}>{subtitle}</span>}
       </div>
     </>
   )

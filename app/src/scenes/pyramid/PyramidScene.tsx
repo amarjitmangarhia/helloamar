@@ -38,21 +38,42 @@ export function PyramidScene({ progress, playing, preview, showUI, reducedMotion
     m.count = Math.floor(progress.current * cells.length)
   }, [cells, progress])
 
-  // orbit drag + wheel zoom (20..120), auto-rotate after 2.5 s idle
+  // orbit drag (1 pointer), pinch zoom (2 pointers), wheel zoom (20..120); auto-rotate after 2.5 s idle
   const cam = useRef({ yaw: 0.7, pitch: 0.32, dist: 62, drag: false, lx: 0, ly: 0, idle: 0 })
   useEffect(() => {
     const el = gl.domElement
     el.style.touchAction = 'none'
     el.style.cursor = 'grab'
     const c = cam.current
+    const ptrs = new Map<number, { x: number; y: number }>()
+    let pinch = 0
+    const pinchDist = () => {
+      const [a, b] = [...ptrs.values()]
+      return Math.hypot(a.x - b.x, a.y - b.y)
+    }
+    const zoom = (k: number) => (c.dist = Math.min(120, Math.max(20, c.dist * k)))
     const down = (e: PointerEvent) => {
-      c.drag = true
-      c.lx = e.clientX
-      c.ly = e.clientY
-      el.style.cursor = 'grabbing'
+      ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (ptrs.size === 1) {
+        c.drag = true
+        c.lx = e.clientX
+        c.ly = e.clientY
+        el.style.cursor = 'grabbing'
+      } else if (ptrs.size === 2) {
+        c.drag = false
+        pinch = pinchDist()
+      }
       el.setPointerCapture(e.pointerId)
     }
     const move = (e: PointerEvent) => {
+      if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (ptrs.size === 2) {
+        const d = pinchDist()
+        if (pinch > 0 && d > 0) zoom(pinch / d) // fingers apart = zoom in
+        pinch = d
+        c.idle = performance.now()
+        return
+      }
       if (!c.drag) return
       c.yaw -= (e.clientX - c.lx) * 0.006
       c.pitch = Math.min(1.3, Math.max(0.08, c.pitch + (e.clientY - c.ly) * 0.004))
@@ -60,22 +81,34 @@ export function PyramidScene({ progress, playing, preview, showUI, reducedMotion
       c.ly = e.clientY
       c.idle = performance.now()
     }
-    const up = () => {
-      c.drag = false
-      el.style.cursor = 'grab'
+    const up = (e: PointerEvent) => {
+      ptrs.delete(e.pointerId)
+      pinch = 0
+      if (ptrs.size === 1) {
+        // one finger left after a pinch: carry on orbiting from where it is
+        const p = [...ptrs.values()][0]
+        c.drag = true
+        c.lx = p.x
+        c.ly = p.y
+      } else {
+        c.drag = false
+        el.style.cursor = 'grab'
+      }
     }
     const wheel = (e: WheelEvent) => {
       e.preventDefault()
-      c.dist = Math.min(120, Math.max(20, c.dist * (1 + e.deltaY * 0.001)))
+      zoom(1 + e.deltaY * 0.001)
     }
     el.addEventListener('pointerdown', down)
     el.addEventListener('pointermove', move)
     el.addEventListener('pointerup', up)
+    el.addEventListener('pointercancel', up)
     el.addEventListener('wheel', wheel, { passive: false })
     return () => {
       el.removeEventListener('pointerdown', down)
       el.removeEventListener('pointermove', move)
       el.removeEventListener('pointerup', up)
+      el.removeEventListener('pointercancel', up)
       el.removeEventListener('wheel', wheel)
     }
   }, [gl])

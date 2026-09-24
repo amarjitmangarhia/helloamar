@@ -262,7 +262,7 @@ export function CosmicScene({ update, onFrame, labels, preview, reducedMotion }:
     const pitch = 0.12 + Math.min(cur, 5) * 0.09
     const cd = w < 700 ? 8.5 : 6
     cam.position.set(Math.sin(yaw) * Math.cos(pitch) * cd + rig.root.position.x, Math.sin(pitch) * cd, Math.cos(yaw) * Math.cos(pitch) * cd)
-    cam.lookAt(rig.root.position.x, 0, 0)
+    cam.lookAt(rig.root.position.x, w <= 700 && !preview ? -1.2 : 0, 0) // phones: lift the scene above the bottom text card
     cam.updateMatrixWorld()
 
     // HTML labels follow their objects and fade on their own ranges

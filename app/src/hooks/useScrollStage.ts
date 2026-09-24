@@ -15,11 +15,19 @@ type Options = {
 export function useScrollStage(stageCount: number, { ease = 0.06, preview = false, reducedMotion = false }: Options = {}) {
   const cur = useRef(0)
   const idxRef = useRef(0)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  // 1vh-equivalent in px, measured from the real 140vh sections. On phones window.innerHeight changes while the
+  // browser toolbar hides, which would make the stage jump; the section height (CSS vh) does not.
+  const unit = useCallback(() => {
+    let el = sectionRef.current
+    if (!el || !el.isConnected) el = sectionRef.current = document.querySelector<HTMLElement>('[data-stage-section]')
+    return el ? el.offsetHeight / 1.4 : window.innerHeight
+  }, [])
   const [idx, setIdx] = useState(0)
 
   const update = useCallback(
     (timeSec: number) => {
-      const target = preview ? pingPong(timeSec, stageCount) : stageTarget(window.scrollY, window.innerHeight, stageCount)
+      const target = preview ? pingPong(timeSec, stageCount) : stageTarget(window.scrollY, unit(), stageCount)
       cur.current += (target - cur.current) * (preview || reducedMotion ? 1 : ease)
       const i = Math.round(cur.current)
       if (i !== idxRef.current) {
@@ -28,12 +36,12 @@ export function useScrollStage(stageCount: number, { ease = 0.06, preview = fals
       }
       return cur.current
     },
-    [stageCount, ease, preview, reducedMotion],
+    [stageCount, ease, preview, reducedMotion, unit],
   )
 
   const goTo = useCallback(
-    (i: number) => window.scrollTo({ top: i * 1.4 * window.innerHeight, behavior: reducedMotion ? 'auto' : 'smooth' }),
-    [reducedMotion],
+    (i: number) => window.scrollTo({ top: i * 1.4 * unit(), behavior: reducedMotion ? 'auto' : 'smooth' }),
+    [reducedMotion, unit],
   )
 
   return { update, idx, goTo }
