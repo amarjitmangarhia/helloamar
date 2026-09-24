@@ -1,5 +1,6 @@
 varying vec3 vCol;
 uniform float uFade; // 1 = full colour, lower = fade toward the page colour (calmer behind text)
+uniform float uOpacity; // per-section layout opacity
 void main(){
   vec2 c = gl_PointCoord*2.-1.; float r2 = dot(c,c);
   if(r2>1.) discard;
@@ -9,5 +10,5 @@ void main(){
   float spec = pow(max(dot(reflect(-L,n),vec3(0,0,1)),0.),28.);
   vec3 col = vCol*(.62+.5*diff) + spec*.3;
   col = mix(vec3(.957,.945,.925), col, uFade);
-  gl_FragColor = vec4(col,1.);
+  gl_FragColor = vec4(col, uOpacity);
 }

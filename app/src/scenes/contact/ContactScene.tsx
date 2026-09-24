@@ -15,7 +15,7 @@ const BEACON_DIR = new THREE.Vector3(-0.28, 1, 0.18).normalize()
 const BEAM_DIR = new THREE.Vector3(0.55, 1, -0.25).normalize()
 
 export type RingColor = 'sky' | 'butter' | 'coral' | 'white'
-const RING_HEX: Record<RingColor, string> = { sky: '#9fd8e0', butter: '#f3d37c', coral: '#f19a82', white: '#ffffff' }
+const RING_HEX: Record<RingColor, string> = { sky: '#4fa9b5', butter: '#e8702a', coral: '#b42318', white: '#1e1f24' }
 
 export type ContactSceneHandle = {
   burst: (strength: number, color?: RingColor) => void
@@ -39,7 +39,6 @@ function makeStarfield() {
   const m = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
     uniforms: { uPR: { value: 1 }, uTime: { value: 0 }, uWarp: { value: 0 } },
     vertexShader: starVert,
     fragmentShader: starFrag,
@@ -65,7 +64,7 @@ function makePlanet() {
     const z = Math.sin(ph) * rr
     pos.push(x * 4, y * 4, z * 4)
     const land = Math.sin(x * 5 + z * 2) * Math.cos(z * 4 - x * 3) + Math.sin(y * 6) * 0.4 > 0.15
-    const c = land ? '#f3d37c' : '#9fd8e0'
+    const c = land ? '#e8702a' : '#4fa9b5'
     const cc = new THREE.Color(c)
     col.push(cc.r, cc.g, cc.b)
     rnd.push(R())
@@ -77,7 +76,6 @@ function makePlanet() {
   const m = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
     uniforms: { uPR: { value: 1 } },
     vertexShader: planetVert,
     fragmentShader: planetFrag,
@@ -94,12 +92,12 @@ function makeBeacon() {
   const ctx = cv.getContext('2d')!
   const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
   grad.addColorStop(0, 'rgba(255,255,255,1)')
-  grad.addColorStop(0.4, 'rgba(243,211,124,.9)')
-  grad.addColorStop(1, 'rgba(243,211,124,0)')
+  grad.addColorStop(0.4, 'rgba(232,112,42,.9)')
+  grad.addColorStop(1, 'rgba(232,112,42,0)')
   ctx.fillStyle = grad
   ctx.fillRect(0, 0, 64, 64)
   const tex = new THREE.CanvasTexture(cv)
-  const mat = (o: number) => new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: o })
+  const mat = (o: number) => new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: o })
   const core = new THREE.Sprite(mat(1))
   core.scale.setScalar(0.22)
   const halo = new THREE.Sprite(mat(0.35))
@@ -113,7 +111,7 @@ function makeBeacon() {
 function makeRingPool() {
   const geo = new THREE.RingGeometry(0.985, 1, 64)
   const rings = Array.from({ length: RING_POOL }, () => {
-    const mat = new THREE.MeshBasicMaterial({ color: '#9fd8e0', transparent: true, opacity: 0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false })
+    const mat = new THREE.MeshBasicMaterial({ color: '#4fa9b5', transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false })
     const mesh = new THREE.Mesh(geo, mat)
     mesh.visible = false
     return { mesh, mat, life: 1, strength: 0 }
@@ -130,7 +128,6 @@ function makeBeam() {
   const m = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
     uniforms: {
       uPR: { value: 1 },
       uHead: { value: 0 },
