@@ -5,4 +5,5 @@ import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 export const projectPages: Record<string, LazyExoticComponent<ComponentType>> = {
   'particle-type': lazy(() => import('./ParticleTypePage')),
   'weather-globe': lazy(() => import('./WeatherGlobePage')),
+  pyramid: lazy(() => import('./PyramidPage')),
 }
