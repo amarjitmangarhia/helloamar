@@ -85,5 +85,13 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 18: hotfix — Home particle material was `transparent: true` but missing `depthWrite: false` (added in session 17's rebuild), which breaks rendering for a large overlapping point cloud (flicker/holes/garbled look). Fixed in `scenes/home/ParticleField.tsx`. If Home still looks wrong after this, it's something else — get a screenshot next time before guessing further.
 
+- Session 19: SIMPLER v2 homepage (design provided ready-to-use starter code this time, used almost verbatim). Full-page particle scene on Home is GONE, replaced by a small contained hero planet (`scenes/heroPlanet/HeroPlanet.tsx`) that never overlaps text — this also removes the whole class of "particles hide the text" bugs from sessions 17–18.
+  - New Home: sticky header (rebuilt `TopNav.tsx`, simpler — no phone hamburger menu anymore, nav just wraps; `Logo.tsx` simplified, dot removed), Hero (planet + copy), `sections/WorkSection.tsx` ("Selected work": 5 cards, first one featured/full-width, hover-video previews — **no preview videos recorded yet, cards show solid colour + title until then**, see the handoff's §5 for the exact ffmpeg recipe), About (skills grid + CV/GitHub/LinkedIn links), Contact CTA, Footer.
+  - Removed as dead code: `content/home.ts`, and the whole old `scenes/home/` particle system (`ParticleField.tsx`, `config.ts`, `shapes.ts`, `shaders/*`) — nothing else used them.
+  - Design tokens updated in `index.css`: `--color-accent` is now `#e8702a` (was `#c4553d`), added `--color-accent-text` (`#b3481a`), `--color-body`, `--color-dim`; `--color-status` is now `#2fbf71` (was `#7fd6a4`). These are global tokens, so this also changed link-hover colour and the "Open to work" dot everywhere, not just Home. Removed the now-unused `.text-panel` utility.
+  - `content/workGrid.ts` is separate from `content/projects.ts` (the latter still drives `/projects` and is untouched) — the Home grid only features 5 of the 7 projects (Weather Globe and Particle Type are reachable from `/projects` but not on Home).
+  - Minor duplication accepted for lower risk: added `hooks/useMediaQuery.ts` (their exact code) rather than merging with the existing `hooks/useReducedMotion.ts` — both do the same reduced-motion check.
+  - Still placeholder: `/me.jpg` → using the `.media-slot` placeholder circle instead (no broken image icon); CV, GitHub, LinkedIn still `#` in `site.ts`; the 5 preview videos.
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

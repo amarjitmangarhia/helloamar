@@ -97,7 +97,7 @@ export default function ContactPage() {
       {!preview && (
         <main className="relative z-[1] mx-auto grid min-h-screen max-w-[1240px] items-center gap-10 px-6 py-[130px] [grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))] md:gap-[clamp(40px,6vw,96px)]">
           <div className="flex flex-col gap-6">
-            <span className="font-mono text-[13px] text-[#b3481a]">{contact.eyebrow}</span>
+            <span className="font-mono text-[13px] text-accent-text">{contact.eyebrow}</span>
             <h1 className="m-0 text-[clamp(48px,8.4vw,104px)] leading-[.9] font-extrabold tracking-[-.055em] text-balance">{contact.title}</h1>
             <p className="m-0 max-w-[440px] text-lg leading-[1.6] text-pretty text-text-2">{contact.lead}</p>
             <div className="flex flex-col border-t border-ink/10">
@@ -130,7 +130,7 @@ export default function ContactPage() {
           <div className="rounded-[30px] border border-ink/10 bg-[rgba(250,248,245,.82)] p-[clamp(22px,3vw,36px)] shadow-[0_10px_30px_-18px_rgba(30,31,36,.25)] backdrop-blur-[20px]">
             {sent ? (
               <div className="flex flex-col items-center gap-5 py-10 text-center">
-                <span className="flex size-16 items-center justify-center rounded-full bg-[#e8702a] text-2xl font-black text-ink">✓</span>
+                <span className="flex size-16 items-center justify-center rounded-full bg-accent text-2xl font-black text-ink">✓</span>
                 <span className="font-mono text-xs text-muted">Transmission received · {timeInZone(ownerTimezone)}</span>
                 <h2 className="m-0 text-3xl font-extrabold tracking-[-.03em]">Signal sent.</h2>
                 <p className="m-0 max-w-sm text-[15px] leading-[1.6] text-text-2">{contactSent(name.trim().split(' ')[0] || 'there')}</p>
@@ -257,7 +257,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full cursor-pointer rounded-full border-0 bg-[#e8702a] py-4 text-[17px] font-extrabold text-ink disabled:cursor-default disabled:opacity-70"
+                  className="w-full cursor-pointer rounded-full border-0 bg-accent py-4 text-[17px] font-extrabold text-ink disabled:cursor-default disabled:opacity-70"
                 >
                   {sending ? 'Transmitting…' : 'Send signal →'}
                 </button>
