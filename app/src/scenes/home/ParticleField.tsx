@@ -78,6 +78,7 @@ export function ParticleField({ config, reducedMotion, onActive }: Props) {
     () =>
       new THREE.ShaderMaterial({
         transparent: true,
+        depthWrite: false, // fixes a broken/glitchy look: transparent point clouds need this off
         vertexShader,
         fragmentShader,
         uniforms: {

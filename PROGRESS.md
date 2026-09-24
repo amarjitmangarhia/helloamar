@@ -83,5 +83,7 @@ Build one thing → owner runs it and reviews → owner says "continue with next
   - Web3Forms key still not set (see session 16) — form still won't send until `VITE_FORM_KEY` is added as a **Build variable** in Cloudflare (Settings → Build; NOT "Variables & Secrets", which is runtime-only and this project has no runtime Worker).
   - Still placeholder: school, CV link, social hrefs (`#`), the "This website" preview media slots (image/video).
 
+- Session 18: hotfix — Home particle material was `transparent: true` but missing `depthWrite: false` (added in session 17's rebuild), which breaks rendering for a large overlapping point cloud (flicker/holes/garbled look). Fixed in `scenes/home/ParticleField.tsx`. If Home still looks wrong after this, it's something else — get a screenshot next time before guessing further.
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
