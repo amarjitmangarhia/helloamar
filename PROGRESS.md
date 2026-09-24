@@ -62,5 +62,7 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 10: set real name (Amar), domain (helloamar.com), fake email; fixed hard-coded "Your Name" in page titles.
 
+- Session 11: added the helloamar logo (wordmark in nav + favicon).
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
