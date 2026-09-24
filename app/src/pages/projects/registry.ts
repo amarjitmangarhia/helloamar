@@ -6,4 +6,5 @@ export const projectPages: Record<string, LazyExoticComponent<ComponentType>> = 
   'particle-type': lazy(() => import('./ParticleTypePage')),
   'weather-globe': lazy(() => import('./WeatherGlobePage')),
   pyramid: lazy(() => import('./PyramidPage')),
+  'the-deep': lazy(() => import('./DeepPage')),
 }

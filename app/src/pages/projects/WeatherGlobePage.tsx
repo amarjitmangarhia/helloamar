@@ -34,7 +34,7 @@ export default function WeatherGlobePage() {
       <title>{`Weather Globe — ${site.name}`}</title>
 
       <div aria-hidden="true" className="fixed inset-0">
-        <Canvas camera={{ fov: 35, near: 0.1, far: 50, position: [0, 0, 5.2] }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+        <Canvas flat camera={{ fov: 35, near: 0.1, far: 50, position: [0, 0, 5.2] }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
           <WeatherGlobe
             cities={cities}
             data={data}

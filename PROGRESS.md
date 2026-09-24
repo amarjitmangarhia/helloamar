@@ -10,7 +10,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Router + layout + lazy project routes (placeholders) | ✅ |
 | Shared components: TopNav, BackPill, ScrollToHash, glass/lift styles | ✅ |
 | `useReducedMotion` hook | ✅ |
-| `useScrollStage` hook (`docs/04`) | ⬜ (build with the first scroll story) |
+| Scroll-story engine: `hooks/useScrollStage.ts`, `lib/story.ts` (+tests), `components/story/StoryLayout.tsx` + `HudStat.tsx` | ✅ (built with The Deep; reuse for Cosmic Zoom, Black Hole, Fermi) |
 | `lib/format.ts` + Vitest tests | ⬜ (build with Cosmic Zoom) |
 | ESLint + Prettier | ⬜ |
 
@@ -21,7 +21,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Projects hub (real design) | `pages/projects-hub` | – | ⬜ | placeholder | ⬜ |
 | Cosmic Zoom | `projects/01-space/cosmic-zoom` | ⬜ | ⬜ | placeholder | ⬜ |
 | Black Hole | `projects/01-space/black-hole` | ⬜ | ⬜ | placeholder | ⬜ |
-| The Deep | `projects/02-ocean/the-deep` | ⬜ | ⬜ | placeholder | ⬜ |
+| The Deep | `projects/02-ocean/the-deep` | ✅ | ✅ | ✅ `/projects/the-deep` | 🟡 owner to review |
 | Weather Globe | `projects/02-ocean/weather-globe` | ✅ | ✅ | ✅ `/projects/weather-globe` | 🟡 owner to review |
 | Fermi Paradox | `projects/03-aliens/fermi-paradox` | ⬜ | ⬜ | placeholder | ⬜ |
 | Pyramid Builder | `projects/04-ancient/pyramid-builder` | – | ✅ | ✅ `/projects/pyramid` | 🟡 owner to review |
@@ -50,6 +50,9 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 - Session 4: ported Weather Globe (`app/src/scenes/weather-globe/`, page `pages/projects/WeatherGlobePage.tsx`, `lib/weather.ts` + Vitest tests, `hooks/useWeather.ts`, `content/cities.ts` = the 10 pins). Added deps `world-atlas`, `topojson-client`, `@types/topojson-client`. Open-Meteo is free but non-commercial. Tip: put your own city first in `content/cities.ts`.
 
 - Session 5: ported Pyramid Builder (`scenes/pyramid/`, `pages/projects/PyramidPage.tsx`, `lib/pyramid.ts` + tests, `content/pyramid.ts`). No new packages: uses a hand-written orbit camera instead of drei OrbitControls (same behaviour, one less dependency). Reduced motion: no auto-rotate, "Build it" shows the finished pyramid instantly.
+
+- Session 6: built the shared scroll-story engine and ported The Deep (`scenes/deep/`, `pages/projects/DeepPage.tsx`, `content/deep.ts`, `lib/deep.ts` + tests). `BackPill` got a `dark` variant. To add another story: write a scene that calls `update(t)` from `useScrollStage` each frame, a content file with stages + outro, and a page that wraps it in `<StoryLayout>`.
+- Also in session 6: added `flat` (no tone mapping) to the Canvas of Weather Globe and Pyramid so colours match the design (R3F applies tone mapping by default, the prototypes had none). Use `<Canvas flat>` on every new page that uses lit materials.
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

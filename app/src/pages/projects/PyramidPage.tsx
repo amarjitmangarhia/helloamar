@@ -105,6 +105,7 @@ export default function PyramidPage() {
     <div className="fixed inset-0 overflow-hidden bg-bg-sand" role="img" aria-label="3D model of the Great Pyramid being built block by block">
       <title>{`Build a Pyramid — ${site.name}`}</title>
       <Canvas
+        flat
         shadows
         camera={{ fov: 35, near: 0.5, far: 400, position: [30, 22, 50] }}
         dpr={[1, 2]}
