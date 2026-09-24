@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers: serve the built site (dist/) as static assets. Free for static files.
+  // "name" must match the project name in the Cloudflare dashboard (Workers & Pages).
+  "name": "helloamar",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // single-page app: any URL that is not a file (e.g. /projects/pyramid) loads index.html,
+    // then React Router shows the right page
+    "not_found_handling": "single-page-application"
+  }
+}

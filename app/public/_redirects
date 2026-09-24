@@ -1,1 +1,2 @@
-/*  /index.html  200
+# Intentionally empty. The single-page-app fallback is handled by wrangler.jsonc (not_found_handling).
+# A "/* /index.html 200" rule here can make `wrangler deploy` fail with "Infinite loop detected".

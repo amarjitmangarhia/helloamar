@@ -70,5 +70,7 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 14: readability on Home: particles dim behind text (`DIM_*` arrays in `scenes/home/ParticleField.tsx`, `uFade` in the shader) and a frosted `text-panel` behind the hero / headings / contact on screens under 1024px (`index.css` `@utility text-panel`). Story pages unchanged (their text cards are already frosted).
 
+- Session 15: hosting = Cloudflare Workers static assets (free). Added `app/wrangler.jsonc` (SPA fallback) and emptied `public/_redirects` (the old catch-all rule breaks `wrangler deploy`). In the Cloudflare project settings: Root directory = `app`, build command `npm run build`, deploy command `npx wrangler deploy`. Future: email list = Workers + D1 (free tier: 5M reads/day, 100k writes/day, 5 GB).
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
