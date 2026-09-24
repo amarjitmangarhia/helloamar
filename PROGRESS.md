@@ -11,7 +11,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Shared components: TopNav, BackPill, ScrollToHash, glass/lift styles | ✅ |
 | `useReducedMotion` hook | ✅ |
 | Scroll-story engine: `hooks/useScrollStage.ts`, `lib/story.ts` (+tests), `components/story/StoryLayout.tsx` + `HudStat.tsx` | ✅ (built with The Deep; reuse for Cosmic Zoom, Black Hole, Fermi) |
-| `lib/format.ts` + Vitest tests | ⬜ (build with Cosmic Zoom) |
+| Number formatting + Vitest tests | ✅ (lives in `lib/cosmic.ts`, `lib/pyramid.ts`, `lib/weather.ts` etc. next to each project) |
 | ESLint + Prettier | ⬜ |
 
 ## Pages & projects
@@ -19,7 +19,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 |---|---|---|---|---|---|
 | Home | `pages/home` | ✅ | ✅ | ✅ | 🟡 owner to review in browser |
 | Projects hub (real design) | `pages/projects-hub` | – | ⬜ | placeholder | ⬜ |
-| Cosmic Zoom | `projects/01-space/cosmic-zoom` | ⬜ | ⬜ | placeholder | ⬜ |
+| Cosmic Zoom | `projects/01-space/cosmic-zoom` | ✅ | ✅ | ✅ `/projects/cosmic-zoom` | 🟡 owner to review |
 | Black Hole | `projects/01-space/black-hole` | ✅ | ✅ | ✅ `/projects/black-hole` | 🟡 owner to review (heavy shader: check speed) |
 | The Deep | `projects/02-ocean/the-deep` | ✅ | ✅ | ✅ `/projects/the-deep` | 🟡 owner to review |
 | Weather Globe | `projects/02-ocean/weather-globe` | ✅ | ✅ | ✅ `/projects/weather-globe` | 🟡 owner to review |
@@ -57,6 +57,8 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 - Session 7: ported Fermi Paradox (`scenes/fermi/`, `pages/projects/FermiPage.tsx`, `content/fermi.ts`, `lib/fermi.ts` + tests). `StoryLayout` now takes theme props (`pageBg`, `cardBg`, `bodyColor`) and `customOutro` (used for the vote section). Vote is saved in `localStorage['fermi-vote']`.
 
 - Session 8: ported Black Hole (`scenes/blackhole/` full-screen ray-tracing shader, `pages/projects/BlackHolePage.tsx`, `content/blackhole.ts`, `lib/blackhole.ts` + tests). `StoryLayout` gained `tagColor` and `bottomCardsOnNarrow`. Render resolution is capped (`renderScale`); `drei/PerformanceMonitor` was NOT added. If it is slow on the owner's laptop, lower the 1100 cap in `lib/blackhole.ts`.
+
+- Session 9: ported Cosmic Zoom (`scenes/cosmic/`, `pages/projects/CosmicPage.tsx`, `content/cosmic.ts`, `lib/cosmic.ts` + tests). ALL 7 PROJECTS ARE NOW BUILT. Remaining: (1) the real Projects hub (`pages/projects-hub` design; replaces the placeholder `pages/Projects.tsx`), (2) launch checklist: real details in `content/site.ts`, og-image, deploy (`docs/DEPLOYMENT.md`), mobile QA, ESLint/Prettier.
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

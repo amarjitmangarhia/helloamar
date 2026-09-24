@@ -7,7 +7,7 @@ export type Project = {
 }
 
 export const projects: Project[] = [
-  { slug: 'cosmic-zoom', title: 'Cosmic Zoom', category: 'Space', status: 'todo' },
+  { slug: 'cosmic-zoom', title: 'Cosmic Zoom', category: 'Space', status: 'done' },
   { slug: 'black-hole', title: 'Black Hole', category: 'Space', status: 'done' },
   { slug: 'the-deep', title: 'The Deep', category: 'Ocean', status: 'done' },
   { slug: 'weather-globe', title: 'Weather Globe', category: 'Ocean', status: 'done' },

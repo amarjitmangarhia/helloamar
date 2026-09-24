@@ -9,4 +9,5 @@ export const projectPages: Record<string, LazyExoticComponent<ComponentType>> = 
   'the-deep': lazy(() => import('./DeepPage')),
   'fermi-paradox': lazy(() => import('./FermiPage')),
   'black-hole': lazy(() => import('./BlackHolePage')),
+  'cosmic-zoom': lazy(() => import('./CosmicPage')),
 }
