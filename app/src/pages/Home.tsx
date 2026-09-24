@@ -35,7 +35,7 @@ export default function Home() {
         {/* 1 Hero */}
         <section id="top" data-shape="0" className="flex min-h-svh items-end px-6 pt-[120px] pb-14 md:items-center md:pb-20">
           <div className={shell}>
-            <div className="flex max-w-[700px] flex-col gap-7">
+            <div className="flex max-w-[700px] flex-col gap-7 max-lg:text-panel">
               <div className="flex flex-wrap gap-3.5 font-mono text-[13px] text-muted">
                 <span>Portfolio / {site.year}</span>
                 <span>{site.city}</span>
@@ -46,7 +46,7 @@ export default function Home() {
                   {hero.badge(site.name)}
                 </span>
                 <span className="sr-only">. </span>
-                <span className="text-[clamp(32px,5.2vw,74px)] leading-[.98] font-extrabold tracking-[-.045em] text-balance">
+                <span className="text-[clamp(28px,5.2vw,74px)] leading-[.98] font-extrabold tracking-[-.045em] text-balance">
                   <span className="rise block" style={{ '--d': '.08s' } as CSSProperties}>{hero.lineA}</span>
                   <span className="rise block text-coral-deep" style={{ '--d': '.16s' } as CSSProperties}>{hero.lineB}</span>
                 </span>
@@ -67,7 +67,7 @@ export default function Home() {
         {/* 2 What I do */}
         <section id="work" data-shape="1" className="px-6 py-20 md:py-[120px]">
           <div className={`${shell} flex flex-col gap-12`}>
-            <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex flex-wrap items-end justify-between gap-6 max-lg:text-panel">
               <h2 className={h2}>What I do</h2>
               <span className="font-mono text-[13px] text-muted">Skills I use and keep improving</span>
             </div>
@@ -129,7 +129,7 @@ export default function Home() {
         {/* 4 Learning */}
         <section id="playground" data-shape="3" className="flex min-h-svh items-center px-6 py-20 md:py-[120px]">
           <div className={`${shell} flex flex-col gap-10`}>
-            <div className="flex max-w-[560px] flex-col gap-4">
+            <div className="flex max-w-[560px] flex-col gap-4 max-lg:text-panel">
               <h2 className={h2}>Learning</h2>
               <p className="m-0 text-lg leading-[1.55] text-pretty text-text-2">What I'm working on right now. This list changes as I go.</p>
             </div>
@@ -146,7 +146,7 @@ export default function Home() {
 
         {/* 5 Contact */}
         <section id="contact" data-shape="4" className="flex min-h-svh flex-col justify-center px-6 pt-20 pb-10 md:pt-[120px]">
-          <div className={`${shell} flex flex-col items-center gap-8 text-center`}>
+          <div className={`${shell} flex flex-col items-center gap-8 text-center max-lg:text-panel`}>
             <span className="font-mono text-[13px] text-muted">Work, collabs, or just a hello</span>
             <h2 className="m-0 text-[clamp(48px,8vw,120px)] leading-[.95] font-extrabold tracking-[-.05em] text-balance">Let's make something.</h2>
             <a

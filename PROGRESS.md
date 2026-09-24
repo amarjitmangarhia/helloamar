@@ -68,5 +68,7 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 13: MOBILE pass (not yet tested on a real phone). Phone menu in nav; hero text at bottom with the ball above it; story pages: text cards at the bottom on phones with the scene lifted, rail shows bars only; Weather Globe city strip; Pyramid collapsible crew settings + pinch zoom; scroll engine measures the real section height (iOS toolbar fix); `role="img"` no longer wraps interactive controls. Test on a phone: `npm run dev -- --host`, open the Network URL. Breakpoints used: 700px (phone), md 768px, 960px (wide), 1048px.
 
+- Session 14: readability on Home: particles dim behind text (`DIM_*` arrays in `scenes/home/ParticleField.tsx`, `uFade` in the shader) and a frosted `text-panel` behind the hero / headings / contact on screens under 1024px (`index.css` `@utility text-panel`). Story pages unchanged (their text cards are already frosted).
+
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

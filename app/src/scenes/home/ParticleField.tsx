@@ -19,6 +19,10 @@ const smooth = (a: number, b: number, x: number) => {
 // [x, y, scale] of the particle group per section (wide screens)
 const layoutWide = [[1.6, 0, 1], [0, 0, 1.3], [-1.75, 0, 1], [1.7, 0, 0.95], [0, -0.35, 1.25]]
 // phones (<= 700px): the ball sits in the upper part of the screen for the hero (text is at the bottom)
+// how strongly the particles show per section (1 = full). Lower where they sit behind text.
+const DIM_WIDE = [0.9, 0.55, 1, 1, 0.5]
+const DIM_TABLET = [0.5, 0.5, 0.5, 0.5, 0.5]
+const DIM_PHONE = [0.7, 0.45, 0.45, 0.45, 0.45]
 const layoutPhone = [[0, 0.85, 0.62], [0, 0, 0.6], [0, 0, 0.6], [0, 0, 0.55], [0, -0.1, 0.7]]
 
 function buildGeometry(N: number) {
@@ -53,6 +57,7 @@ export function ParticleField({ config, reducedMotion, onActive }: Props) {
           uMouseStr: { value: 0 },
           uSize: { value: 40 },
           uPR: { value: 1 },
+          uFade: { value: 1 },
           uColA: { value: new THREE.Color() },
           uColB: { value: new THREE.Color() },
         },
@@ -68,7 +73,7 @@ export function ParticleField({ config, reducedMotion, onActive }: Props) {
   }, [config.palette, material])
 
   // mutable per-frame state (refs, never React state, so nothing re-renders at 60fps)
-  const st = useRef({ f: 0, x: 1.6, y: 0, s: 1, mx: 99, my: 99, mStr: 0, mLast: 0, active: 0 })
+  const st = useRef({ f: 0, x: 1.6, y: 0, s: 1, mx: 99, my: 99, mStr: 0, mLast: 0, active: 0, dim: 1 })
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -133,6 +138,10 @@ export function ParticleField({ config, reducedMotion, onActive }: Props) {
     s.x += (tx - s.x) * e2
     s.y += (ty - s.y) * e2
     s.s += (ts - s.s) * e2
+    const DM = phone ? DIM_PHONE : wide ? DIM_WIDE : DIM_TABLET
+    const td = DM[i0] + (DM[i0 + 1] - DM[i0]) * tt
+    s.dim += (td - s.dim) * e2
+    u.uFade.value = s.dim
     const g = group.current
     if (g) {
       g.position.set(s.x, s.y, 0)
