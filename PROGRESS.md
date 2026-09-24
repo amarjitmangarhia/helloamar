@@ -23,7 +23,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Black Hole | `projects/01-space/black-hole` | ⬜ | ⬜ | placeholder | ⬜ |
 | The Deep | `projects/02-ocean/the-deep` | ✅ | ✅ | ✅ `/projects/the-deep` | 🟡 owner to review |
 | Weather Globe | `projects/02-ocean/weather-globe` | ✅ | ✅ | ✅ `/projects/weather-globe` | 🟡 owner to review |
-| Fermi Paradox | `projects/03-aliens/fermi-paradox` | ⬜ | ⬜ | placeholder | ⬜ |
+| Fermi Paradox | `projects/03-aliens/fermi-paradox` | ✅ | ✅ | ✅ `/projects/fermi-paradox` | 🟡 owner to review |
 | Pyramid Builder | `projects/04-ancient/pyramid-builder` | – | ✅ | ✅ `/projects/pyramid` | 🟡 owner to review |
 | Particle Type | `projects/05-play/particle-type` | ✅ | ✅ | ✅ `/projects/particle-type` | 🟡 owner to review |
 
@@ -53,6 +53,8 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 
 - Session 6: built the shared scroll-story engine and ported The Deep (`scenes/deep/`, `pages/projects/DeepPage.tsx`, `content/deep.ts`, `lib/deep.ts` + tests). `BackPill` got a `dark` variant. To add another story: write a scene that calls `update(t)` from `useScrollStage` each frame, a content file with stages + outro, and a page that wraps it in `<StoryLayout>`.
 - Also in session 6: added `flat` (no tone mapping) to the Canvas of Weather Globe and Pyramid so colours match the design (R3F applies tone mapping by default, the prototypes had none). Use `<Canvas flat>` on every new page that uses lit materials.
+
+- Session 7: ported Fermi Paradox (`scenes/fermi/`, `pages/projects/FermiPage.tsx`, `content/fermi.ts`, `lib/fermi.ts` + tests). `StoryLayout` now takes theme props (`pageBg`, `cardBg`, `bodyColor`) and `customOutro` (used for the vote section). Vote is saved in `localStorage['fermi-vote']`.
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.
