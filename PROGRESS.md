@@ -20,7 +20,7 @@ Legend: ✅ done · 🟡 built, waiting for owner to review · ⬜ not started
 | Home | `pages/home` | ✅ | ✅ | ✅ | 🟡 owner to review in browser |
 | Projects hub (real design) | `pages/projects-hub` | – | ⬜ | placeholder | ⬜ |
 | Cosmic Zoom | `projects/01-space/cosmic-zoom` | ⬜ | ⬜ | placeholder | ⬜ |
-| Black Hole | `projects/01-space/black-hole` | ⬜ | ⬜ | placeholder | ⬜ |
+| Black Hole | `projects/01-space/black-hole` | ✅ | ✅ | ✅ `/projects/black-hole` | 🟡 owner to review (heavy shader: check speed) |
 | The Deep | `projects/02-ocean/the-deep` | ✅ | ✅ | ✅ `/projects/the-deep` | 🟡 owner to review |
 | Weather Globe | `projects/02-ocean/weather-globe` | ✅ | ✅ | ✅ `/projects/weather-globe` | 🟡 owner to review |
 | Fermi Paradox | `projects/03-aliens/fermi-paradox` | ✅ | ✅ | ✅ `/projects/fermi-paradox` | 🟡 owner to review |
@@ -55,6 +55,8 @@ Build one thing → owner runs it and reviews → owner says "continue with next
 - Also in session 6: added `flat` (no tone mapping) to the Canvas of Weather Globe and Pyramid so colours match the design (R3F applies tone mapping by default, the prototypes had none). Use `<Canvas flat>` on every new page that uses lit materials.
 
 - Session 7: ported Fermi Paradox (`scenes/fermi/`, `pages/projects/FermiPage.tsx`, `content/fermi.ts`, `lib/fermi.ts` + tests). `StoryLayout` now takes theme props (`pageBg`, `cardBg`, `bodyColor`) and `customOutro` (used for the vote section). Vote is saved in `localStorage['fermi-vote']`.
+
+- Session 8: ported Black Hole (`scenes/blackhole/` full-screen ray-tracing shader, `pages/projects/BlackHolePage.tsx`, `content/blackhole.ts`, `lib/blackhole.ts` + tests). `StoryLayout` gained `tagColor` and `bottomCardsOnNarrow`. Render resolution is capped (`renderScale`); `drei/PerformanceMonitor` was NOT added. If it is slow on the owner's laptop, lower the 1100 cap in `lib/blackhole.ts`.
 
 ## Next session — paste this with the zip
 > Read README.md and PROGRESS.md only. Home is reviewed (notes: ___). Continue with the next project: ___.

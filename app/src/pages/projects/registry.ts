@@ -8,4 +8,5 @@ export const projectPages: Record<string, LazyExoticComponent<ComponentType>> = 
   pyramid: lazy(() => import('./PyramidPage')),
   'the-deep': lazy(() => import('./DeepPage')),
   'fermi-paradox': lazy(() => import('./FermiPage')),
+  'black-hole': lazy(() => import('./BlackHolePage')),
 }

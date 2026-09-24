@@ -12,7 +12,9 @@ type Props = {
   stages: Stage[]
   idx: number
   onGo: (i: number) => void
-  accent: string // e.g. '#9fd8e0'
+  accent: string // rail highlight, e.g. '#9fd8e0'
+  tagColor?: string // stage tag / outro kicker colour (defaults to accent)
+  bottomCardsOnNarrow?: boolean // phones: anchor the text cards to the bottom (Black Hole)
   outro?: Outro // the default "Next" outro section...
   customOutro?: ReactNode // ...or your own final section (e.g. Fermi's vote)
   pageBg?: string
@@ -24,11 +26,11 @@ type Props = {
 }
 
 /** Shared page frame for every scroll story: fixed canvas, 140vh sticky sections, stage rail, outro with "Next". */
-export function StoryLayout({ title, subtitle, category, stages, idx, onGo, accent, outro, customOutro, pageBg = '#03050a', cardBg = 'rgba(3,8,16,.5)', bodyColor = '#d3dade', preview, hud, children }: Props) {
+export function StoryLayout({ title, subtitle, category, stages, idx, onGo, accent, tagColor = accent, bottomCardsOnNarrow, outro, customOutro, pageBg = '#03050a', cardBg = 'rgba(3,8,16,.5)', bodyColor = '#d3dade', preview, hud, children }: Props) {
   return (
     <div
       className="relative min-h-screen bg-(--page) text-[#ecebe6] selection:bg-(--accent) selection:text-(--page)"
-      style={{ '--page': pageBg, '--accent': accent } as CSSProperties}
+      style={{ '--page': pageBg, '--accent': tagColor } as CSSProperties}
     >
       <div className="pointer-events-none fixed inset-0 z-0">{children}</div>
 
@@ -60,12 +62,12 @@ export function StoryLayout({ title, subtitle, category, stages, idx, onGo, acce
           <main className="relative z-[1]">
             {stages.map((s) => (
               <section key={s.label} className="h-[140vh]">
-                <div className="sticky top-0 box-border flex h-screen items-center px-[clamp(20px,5vw,72px)]">
+                <div className={`sticky top-0 box-border flex h-screen items-center px-[clamp(20px,5vw,72px)] ${bottomCardsOnNarrow ? 'max-[700px]:items-end max-[700px]:px-5 max-[700px]:pb-[110px]' : ''}`}>
                   <div
                     className="flex max-w-[460px] flex-col gap-4 rounded-[26px] border border-[#ecebe6]/10 p-7 backdrop-blur-[8px]"
                     style={{ background: cardBg }}
                   >
-                    <span className="font-mono text-[13px]" style={{ color: accent }}>
+                    <span className="font-mono text-[13px]" style={{ color: tagColor }}>
                       {s.tag}
                     </span>
                     <h2 className="m-0 text-[clamp(36px,4.6vw,64px)] leading-none font-extrabold tracking-[-.04em] text-balance">{s.title}</h2>
@@ -81,7 +83,7 @@ export function StoryLayout({ title, subtitle, category, stages, idx, onGo, acce
             {!customOutro && outro && (
               <section className="box-border flex min-h-screen items-center justify-center px-6 py-[120px]">
                 <div className="flex max-w-[720px] flex-col items-center gap-7 text-center">
-                  <span className="font-mono text-[13px]" style={{ color: accent }}>
+                  <span className="font-mono text-[13px]" style={{ color: tagColor }}>
                     {outro.kicker}
                   </span>
                   <h2 className="m-0 text-[clamp(40px,6vw,88px)] leading-[.95] font-extrabold tracking-[-.045em] text-balance">{outro.title}</h2>
