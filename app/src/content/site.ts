@@ -1,9 +1,10 @@
 // ALL placeholder personal details live here. Replace them once and the whole site updates.
 export const site = {
-  name: 'Your Name',
+  name: 'Amar',
   city: 'City, Country',
   year: '2026',
-  email: 'hello@yourname.com',
+  url: 'https://helloamar.com',
+  email: 'hello@helloamar.com', // placeholder: no mailbox exists yet, so mailto: links go nowhere until you set one up
   school: 'School Name',
   cvHref: '#', // TODO: link to a CV PDF in /public
   socials: [

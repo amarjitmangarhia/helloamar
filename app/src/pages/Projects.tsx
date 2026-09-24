@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
 import { projects } from '../content/projects'
+import { site } from '../content/site'
 
 // PLACEHOLDER hub. The real designed hub (categories, cards, previews) is built after the projects.
 export default function Projects() {
   return (
     <main className="mx-auto min-h-screen max-w-[1240px] px-6 pt-36 pb-24">
-      <title>Projects — Your Name</title>
+      <title>{`Projects — ${site.name}`}</title>
       <span className="font-mono text-[13px] text-muted">5 categories · 7 projects</span>
       <h1 className="mt-4 mb-10 text-[clamp(48px,7vw,96px)] leading-[.95] font-extrabold tracking-[-.045em] text-balance">Projects</h1>
       <p className="mb-10 max-w-xl text-text-2">
