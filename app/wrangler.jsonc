@@ -4,7 +4,7 @@
   "name": "helloamar",
   "compatibility_date": "2026-09-01",
   "assets": {
-    "directory": "./dist",
+    "directory": "./public",
     // single-page app: any URL that is not a file (e.g. /projects/pyramid) loads index.html,
     // then React Router shows the right page
     "not_found_handling": "single-page-application"
