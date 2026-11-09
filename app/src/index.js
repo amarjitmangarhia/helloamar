@@ -26,15 +26,19 @@ function init(db) {
   return ready;
 }
 
+let mailError = '';
 async function mail(env, to, subject, text) {
+  mailError = '';
+  if (!env.RESEND_API_KEY) { mailError = 'RESEND_API_KEY is not set on the Worker'; return false; }
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json', 'user-agent': 'helloamar-worker/1.0' },
       body: JSON.stringify({ from: `helloamar <${env.FROM_EMAIL}>`, to: [to], subject, text }),
     });
+    if (!r.ok) mailError = `${r.status} ${(await r.text()).slice(0, 160)}`;
     return r.ok;
-  } catch { return false; }
+  } catch (e) { mailError = 'fetch failed: ' + e.message; return false; }
 }
 
 async function page(env, request, path) {
@@ -73,7 +77,7 @@ async function requestCode(request, env, admin) {
        code_hash = excluded.code_hash, code_exp = excluded.code_exp, attempts = 0, last_sent = excluded.last_sent`
   ).bind(email, name, isAdmin ? 'approved' : 'new', await sha(email + ':' + code), now + 10 * MIN, now, now).run();
   const ok = await mail(env, email, 'Your helloamar code', `Your code is ${code}\n\nIt expires in 10 minutes. If you didn’t ask for it, ignore this email.`);
-  return ok ? json({ ok: true }) : json({ error: 'Couldn’t send the email. Try again soon.' }, 502);
+  return ok ? json({ ok: true }) : json({ error: 'Couldn’t send the email. Try again soon. ' + mailError }, 502);
 }
 
 async function verify(request, env, admin) {
