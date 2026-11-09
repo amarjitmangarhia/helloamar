@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>helloamar</title>
+<style>
+:root{--bg:#eef1f4;--ink:#101828;--muted:#5b6676;--line:#b9c2cf;--accent:#2437d9;--accent-ink:#fff;--err:#b42318;--display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#12161d;--ink:#eef1f4;--muted:#98a3b3;--line:#3a4352;--accent:#8da0ff;--accent-ink:#101828;--err:#ff8f85;color-scheme:dark}}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);display:flex;align-items:center;justify-content:center;padding:24px}
+main{width:100%;max-width:460px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2.6rem,11vw,4.2rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 16px}
+p{color:var(--muted);font-size:1.05rem;line-height:1.5;margin:0 0 28px;max-width:38ch}
+label{display:block;font-weight:600;margin-bottom:8px}
+input{width:100%;font:inherit;font-size:1.1rem;padding:14px 16px;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:6px}
+button.main{margin-top:14px;width:100%;font:inherit;font-weight:600;font-size:1.05rem;padding:14px 16px;border:0;border-radius:6px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+button.main:disabled{opacity:.6;cursor:default}
+button.main.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+button.link{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.codes{display:flex;gap:10px;margin-bottom:6px}
+.codes input{flex:1;min-width:0;text-align:center;font-family:var(--display);font-weight:600;font-size:2rem;padding:12px 0}
+.codes input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
+.codes.bad input{border-color:var(--err)}
+.codes.bad{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){.codes.bad{animation:none}}
+.msg{min-height:1.4em;color:var(--err);margin:8px 0 0;font-size:.95rem}
+.small{color:var(--muted);font-size:.95rem;margin-top:22px}
+.req{border:2px solid var(--line);border-radius:6px;padding:16px;margin-bottom:12px}
+.req span{color:var(--muted);font-size:.95rem}
+.row{display:flex;gap:10px}.row .main{margin-top:14px}
+.hello{font-size:clamp(3.4rem,17vw,9rem)}
+[hidden]{display:none!important}
+</style>
+</head><body><main>
+<section id="s1">
+  <h1>Request access</h1>
+  <p>I’m still building this site. It will hold my writing, my images, and whatever else I’m curious about. Enter your name and email to ask for early access. We’ll send a 6-digit code to confirm your email, then I approve each person myself.</p>
+  <label for="name">Name</label>
+  <input id="name" type="text" autocomplete="name" placeholder="Your name" style="margin-bottom:16px">
+  <label for="email">Email address</label>
+  <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+  <p class="msg" id="m1"></p>
+  <button class="main" id="send">Send code</button>
+  <p class="small">No spam. I only email you about your request.</p>
+</section>
+<section id="s2" hidden>
+  <h1>Check your inbox</h1>
+  <p>We sent a 6-digit code to <strong id="shown"></strong>. It expires in 10 minutes.</p>
+  <div class="codes" id="codes" role="group" aria-label="6-digit code">
+    <input inputmode="numeric" maxlength="1" aria-label="Digit 1"><input inputmode="numeric" maxlength="1" aria-label="Digit 2"><input inputmode="numeric" maxlength="1" aria-label="Digit 3"><input inputmode="numeric" maxlength="1" aria-label="Digit 4"><input inputmode="numeric" maxlength="1" aria-label="Digit 5"><input inputmode="numeric" maxlength="1" aria-label="Digit 6">
+  </div>
+  <p class="msg" id="m2" role="alert"></p>
+  <button class="main" id="check">Confirm code</button>
+  <p class="small">Wrong email? <button class="link" id="back">Change it</button> &nbsp; Didn’t get it? <button class="link" id="resend">Send a new code</button></p>
+</section>
+<section id="s4" hidden>
+  <h1>Waiting for approval</h1>
+  <p>Your email is confirmed. I review every request myself, usually within a day. You’ll get an email when you’re approved, and this page will open on its own.</p>
+  <p class="small"><button class="link" id="out">Sign out</button></p>
+</section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const show = n => ['s1','s2','s4'].forEach(s => $(s).hidden = s !== 's' + n);
+const boxes = [...document.querySelectorAll('#codes input')];
+const val = () => boxes.map(b => b.value).join('');
+let email = '', name = '', timer = null;
+
+async function api(path, body) {
+  try {
+    const r = await fetch(path, { method: body ? 'POST' : 'GET', headers: body ? { 'content-type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
+    let d = {}; try { d = await r.json(); } catch {}
+    return { ok: r.ok, d };
+  } catch { return { ok: false, d: { error: 'No connection. Try again.' } }; }
+}
+function wait() {
+  show(4);
+  clearInterval(timer);
+  timer = setInterval(async () => {
+    const r = await api('/api/me');
+    if (!r.ok || r.d.status === 'approved') location.reload();
+  }, 30000);
+}
+async function send(isResend) {
+  email = $('email').value.trim(); name = $('name').value.trim();
+  const m = isResend ? $('m2') : $('m1');
+  if (!name) { m.textContent = 'Enter your name.'; return; }
+  if (!/^\S+@\S+\.\S+$/.test(email)) { m.textContent = 'Enter a valid email, like you@example.com.'; return; }
+  m.textContent = ''; $('send').disabled = true;
+  const r = await api('/api/request', { name, email });
+  $('send').disabled = false;
+  if (!r.ok) { m.textContent = r.d.error || 'Something went wrong.'; return; }
+  $('shown').textContent = email;
+  boxes.forEach(b => b.value = ''); $('m2').textContent = ''; $('codes').classList.remove('bad');
+  show(2); boxes[0].focus();
+}
+async function check() {
+  if (val().length < 6) { $('codes').classList.add('bad'); $('m2').textContent = 'Enter all 6 digits.'; return; }
+  $('check').disabled = true;
+  const r = await api('/api/verify', { email, code: val() });
+  $('check').disabled = false;
+  if (!r.ok) { $('codes').classList.add('bad'); $('m2').textContent = r.d.error || 'Something went wrong.'; return; }
+  if (r.d.status === 'approved') location.reload(); else wait();
+}
+boxes.forEach((b, i) => {
+  b.addEventListener('input', () => {
+    b.value = b.value.replace(/\D/g, '').slice(0, 1);
+    $('codes').classList.remove('bad'); $('m2').textContent = '';
+    if (b.value && i < 5) boxes[i + 1].focus();
+    if (val().length === 6) check();
+  });
+  b.addEventListener('keydown', e => { if (e.key === 'Backspace' && !b.value && i > 0) boxes[i - 1].focus(); });
+  b.addEventListener('paste', e => {
+    const t = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+    if (!t) return; e.preventDefault();
+    t.split('').forEach((c, j) => boxes[j].value = c);
+    boxes[Math.min(t.length, 5)].focus(); if (t.length === 6) check();
+  });
+});
+$('send').onclick = () => send(false);
+$('email').addEventListener('keydown', e => { if (e.key === 'Enter') send(false); });
+$('check').onclick = check;
+$('back').onclick = () => show(1);
+$('resend').onclick = () => send(true);
+$('out').onclick = async () => { await api('/api/logout', {}); location.reload(); };
+api('/api/me').then(r => { if (r.ok && r.d.status === 'pending') wait(); });
+</script></body></html>
