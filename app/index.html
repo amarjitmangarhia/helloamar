@@ -1,21 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Amar — Software developer</title>
-    <link rel="canonical" href="https://helloamar.com/" />
-    <meta name="description" content="Portfolio of Amar, a software developer: interactive 3D projects about space, the ocean, aliens and ancient history." />
-    <meta property="og:title" content="Amar — Software developer" />
-    <meta property="og:url" content="https://helloamar.com/" />
-    <meta property="og:site_name" content="helloamar.com" />
-    <meta property="og:description" content="Interactive 3D projects and a little about me." />
-    <meta property="og:type" content="website" />
-    <!-- TODO before launch: add public/og-image.png (1200x630) and an og:image tag -->
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hello World!</title>
+<style>
+  :root { --bg: #ffffff; --fg: #111111; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111111; --fg: #ffffff; } }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--fg);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: clamp(3rem, 14vw, 10rem); margin: 0; text-align: center; }
+</style>
+</head>
+<body>
+<h1>Hello World!</h1>
+</body>
 </html>
