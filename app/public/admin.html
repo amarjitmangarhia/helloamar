@@ -3,57 +3,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Admin</title>
-<style>
-:root{--bg:#eef1f4;--ink:#101828;--muted:#5b6676;--line:#b9c2cf;--accent:#2437d9;--accent-ink:#fff;--err:#b42318;--display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#12161d;--ink:#eef1f4;--muted:#98a3b3;--line:#3a4352;--accent:#8da0ff;--accent-ink:#101828;--err:#ff8f85;color-scheme:dark}}
+<style>:root{--bg:#eef1f4;--ink:#101828;--muted:#5b6676;--line:#b9c2cf;--accent:#2437d9;--accent-ink:#fff;--card:#e3e8ee;--ok:#0f766e;--warn:#b54708;--err:#b42318;--display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#12161d;--ink:#eef1f4;--muted:#98a3b3;--line:#3a4352;--accent:#8da0ff;--accent-ink:#101828;--card:#1b212b;--ok:#5eead4;--warn:#fdba74;--err:#ff8f85;color-scheme:dark}}
 *,*::before,*::after{box-sizing:inherit}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);display:flex;align-items:center;justify-content:center;padding:24px}
-main{width:100%;max-width:460px}
-h1{font-family:var(--display);font-weight:600;font-size:clamp(2.6rem,11vw,4.2rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 16px}
-p{color:var(--muted);font-size:1.05rem;line-height:1.5;margin:0 0 28px;max-width:38ch}
-label{display:block;font-weight:600;margin-bottom:8px}
-input{width:100%;font:inherit;font-size:1.1rem;padding:14px 16px;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:6px}
-button.main{margin-top:14px;width:100%;font:inherit;font-weight:600;font-size:1.05rem;padding:14px 16px;border:0;border-radius:6px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
-button.main:disabled{opacity:.6;cursor:default}
-button.main.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
-button.link{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5}
+.wrap{max-width:740px;margin:0 auto;padding:20px 22px 80px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:30px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:600;font-size:1.5rem;color:var(--ink);text-decoration:none}
+nav a,nav button{color:var(--muted);text-decoration:none;margin-left:18px;font:inherit;font-weight:600;background:none;border:0;padding:0;cursor:pointer}
+nav a:hover,nav a.on,nav button:hover{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.codes{display:flex;gap:10px;margin-bottom:6px}
-.codes input{flex:1;min-width:0;text-align:center;font-family:var(--display);font-weight:600;font-size:2rem;padding:12px 0}
-.codes input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
-.codes.bad input{border-color:var(--err)}
-.codes.bad{animation:shake .3s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@media(prefers-reduced-motion:reduce){.codes.bad{animation:none}}
-.msg{min-height:1.4em;color:var(--err);margin:8px 0 0;font-size:.95rem}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2rem,7vw,3rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 14px}
+h2{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:36px 0 10px}
+.lead{font-family:var(--display);font-size:clamp(1.4rem,4.5vw,1.9rem);line-height:1.3;max-width:26ch;margin:0 0 26px}
+.hint{color:var(--muted)}
+.img,.pic{display:flex;align-items:flex-end;padding:12px;color:#fff;font-size:.8rem;letter-spacing:.05em;border-radius:6px;aspect-ratio:16/9;width:100%;object-fit:cover}
+.pic{padding:0;display:block}
+.g0{background:linear-gradient(135deg,#2437d9,#7b8cff)}.g1{background:linear-gradient(135deg,#101828,#4a5a86)}.g2{background:linear-gradient(135deg,#0f766e,#6ee7b7);color:#04201c}.g3{background:linear-gradient(135deg,#7c2d92,#e879f9)}
+.feat{display:block;text-decoration:none;color:inherit;background:var(--card);border-radius:8px;overflow:hidden}
+.feat .img,.feat .pic{border-radius:0}.feat .t{padding:16px 18px 18px}.feat p{margin:6px 0 0;color:var(--muted)}
+.feat h3{font-family:var(--display);font-size:1.5rem;margin:0}
+.tag{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.row:hover .rt{color:var(--accent)}.rt{font-family:var(--display);font-size:1.15rem}.rd{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip,.tab{font:inherit;font-weight:600;padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chip.on,.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.note .pic,.note .img{margin:18px 0 24px}.note p{max-width:60ch;font-size:1.08rem;white-space:pre-wrap}
+.back{color:var(--accent);text-decoration:none;font-weight:600}.meta{color:var(--muted);margin-bottom:6px}
+label,.lab{display:block;font-weight:700;margin:20px 0 6px}
+input[type=text],input[type=email],textarea,select{width:100%;font:inherit;font-size:1.05rem;padding:12px 14px;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:6px}
+input.title{font-family:var(--display);font-size:1.6rem;font-weight:600}
+textarea{min-height:260px;resize:vertical;line-height:1.55}
+.drop{border:2px dashed var(--line);border-radius:8px;padding:20px;text-align:center;background:var(--card)}
+.spec{text-align:left;margin:12px auto 0;max-width:460px;color:var(--muted);font-size:.92rem;padding-left:18px}
+.btn{font:inherit;font-weight:600;font-size:1rem;padding:11px 18px;border-radius:6px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.sm{padding:6px 12px;font-size:.9rem}.btn:disabled{opacity:.6}
+.prev{display:flex;gap:14px;align-items:flex-start;margin-top:14px;text-align:left}.prev img{width:150px;aspect-ratio:16/9;object-fit:cover;border-radius:6px}
+.badge{display:block;font-size:.85rem;font-weight:600;margin:2px 0}.ok{color:var(--ok)}.warn{color:var(--warn)}.msg{min-height:1.4em;color:var(--err);margin:8px 0 0}
+.sug{margin-top:8px;padding:10px 12px;border-radius:6px;background:var(--card);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar{position:sticky;bottom:0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 0;margin-top:26px;background:var(--bg);border-top:1px solid var(--line)}
+.saved{color:var(--muted);font-size:.9rem;margin-left:auto}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.item strong{font-family:var(--display);font-size:1.15rem}.item .m{display:block;color:var(--muted);font-size:.9rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:6px;font-weight:600}
 .small{color:var(--muted);font-size:.95rem;margin-top:22px}
-.req{border:2px solid var(--line);border-radius:6px;padding:16px;margin-bottom:12px}
-.req span{color:var(--muted);font-size:.95rem}
-.row{display:flex;gap:10px}.row .main{margin-top:14px}
-.hello{font-size:clamp(3.4rem,17vw,9rem)}
 [hidden]{display:none!important}
+@media(max-width:520px){.row{grid-template-columns:1fr auto}.row .tag{grid-column:1/-1}}
 </style>
-</head><body><main>
+</head><body>
+<div class="wrap">
 <section id="login">
   <h1>Admin</h1>
-  <p>Sign in with your email. We’ll send a 6-digit code.</p>
+  <p class="hint">Sign in with your email. We’ll send a 6-digit code.</p>
   <label for="email">Email address</label>
   <input id="email" type="email" autocomplete="email">
-  <div id="codebox" hidden style="margin-top:16px"><label for="code">6-digit code</label><input id="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div>
+  <div id="codebox" hidden><label for="code">6-digit code</label><input id="code" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div>
   <p class="msg" id="msg"></p>
-  <button class="main" id="go">Send code</button>
+  <button class="btn main" id="go" style="width:100%">Send code</button>
 </section>
-<section id="list" hidden>
-  <h1>Requests</h1>
-  <p id="count"></p>
-  <div id="items"></div>
-  <p class="small"><button class="link" id="out">Sign out</button></p>
+<section id="app" hidden>
+  <header><span class="brand">Admin</span><div id="tabs" class="chips" style="margin:0"></div></header>
+  <main id="view"></main>
 </section>
-</main>
+</div>
+<div class="toast" id="toast" hidden></div>
 <script>
-const $ = id => document.getElementById(id);
-let step = 0;
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 async function api(path, body) {
   try {
     const r = await fetch(path, { method: body ? 'POST' : 'GET', headers: body ? { 'content-type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
@@ -61,36 +78,147 @@ async function api(path, body) {
     return { ok: r.ok, d };
   } catch { return { ok: false, d: { error: 'No connection. Try again.' } }; }
 }
-async function load() {
-  const r = await api('/api/admin/list');
-  if (!r.ok) { $('login').hidden = false; $('list').hidden = true; $('msg').textContent = 'Sign in as the admin email.'; step = 0; $('go').textContent = 'Send code'; return; }
-  $('login').hidden = true; $('list').hidden = false;
-  const items = r.d.items, box = $('items'); box.textContent = '';
-  const waiting = items.filter(i => i.status === 'pending').length;
-  $('count').textContent = waiting ? waiting + (waiting === 1 ? ' person is' : ' people are') + ' waiting for approval.' : 'No one is waiting.';
-  for (const it of items) {
-    const d = document.createElement('div'); d.className = 'req';
-    const n = document.createElement('strong'); n.textContent = it.name;
-    const s = document.createElement('span'); s.textContent = it.email + ' · ' + it.status + ' · ' + new Date(it.created).toLocaleDateString();
-    d.append(n, document.createElement('br'), s);
-    const row = document.createElement('div'); row.className = 'row';
-    const add = (label, decision, alt) => { const b = document.createElement('button'); b.className = 'main' + (alt ? ' alt' : ''); b.textContent = label; b.onclick = async () => { b.disabled = true; await api('/api/admin/decide', { email: it.email, decision }); load(); }; row.append(b); };
-    if (it.status !== 'approved') add('Approve', 'approve', false);
-    if (it.status !== 'rejected') add(it.status === 'approved' ? 'Remove access' : 'Reject', 'reject', true);
-    d.append(row); box.append(d);
-  }
-}
-$('go').onclick = async () => {
-  const email = $('email').value.trim(); $('msg').textContent = ''; $('go').disabled = true;
+const toast = t => { const e = $('#toast'); e.textContent = t; e.hidden = false; setTimeout(() => e.hidden = true, 2400); };
+
+// ---- login ----
+let step = 0;
+$('#go').onclick = async () => {
+  const email = $('#email').value.trim(); $('#msg').textContent = ''; $('#go').disabled = true;
   if (step === 0) {
     const r = await api('/api/request', { email, name: 'Admin' });
-    if (r.ok) { step = 1; $('codebox').hidden = false; $('go').textContent = 'Confirm code'; $('code').focus(); } else $('msg').textContent = r.d.error || 'Something went wrong.';
+    if (r.ok) { step = 1; $('#codebox').hidden = false; $('#go').textContent = 'Confirm code'; $('#code').focus(); } else $('#msg').textContent = r.d.error || 'Something went wrong.';
   } else {
-    const r = await api('/api/verify', { email, code: $('code').value.trim() });
-    if (r.ok) load(); else $('msg').textContent = r.d.error || 'Something went wrong.';
+    const r = await api('/api/verify', { email, code: $('#code').value.trim() });
+    if (r.ok) start(); else $('#msg').textContent = r.d.error || 'Something went wrong.';
   }
-  $('go').disabled = false;
+  $('#go').disabled = false;
 };
-$('out').onclick = async () => { await api('/api/logout', {}); location.reload(); };
-load();
+
+// ---- app ----
+const DEFAULT_CATS = ['Mind', 'Cosmos', 'Build'];
+const KW = { Mind: 'mind psychology philosophy stoic stoicism habit emotion behavior behaviour people think thinking ego discipline fear nietzsche epictetus meaning',
+  Cosmos: 'space planet planets star stars galaxy orbit physics universe light-year black hole quantum nasa telescope moon mars time',
+  Build: 'build built code coding 3d drone design app website project model print circuit rc render blender software' };
+let tab = 'write', items = [], cur = blank(), timer = null;
+function blank() { return { id: '', title: '', body: '', cat: '', alt: '', featured: false, image_id: '', status: 'draft', saved: '', info: '', blob: '' }; }
+const cats = () => [...new Set([...DEFAULT_CATS, ...items.map(i => i.cat).filter(Boolean), ...(cur.cat ? [cur.cat] : [])])];
+
+async function start() {
+  const r = await api('/api/admin/posts');
+  if (!r.ok) { $('#login').hidden = false; $('#app').hidden = true; $('#msg').textContent = 'Sign in as the admin email.'; step = 0; $('#go').textContent = 'Send code'; return; }
+  $('#login').hidden = true; $('#app').hidden = false; items = r.d.items; draw();
+}
+async function refresh() { const r = await api('/api/admin/posts'); if (r.ok) items = r.d.items; }
+function tabs() {
+  const d = items.filter(i => i.status === 'draft').length, p = items.filter(i => i.status === 'published').length;
+  $('#tabs').innerHTML = [['write', 'Write'], ['drafts', 'Drafts (' + d + ')'], ['pub', 'Published (' + p + ')'], ['req', 'Requests']].map(([k, l]) => `<button class="tab${tab === k ? ' on' : ''}" data-t="${k}">${l}</button>`).join('');
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => { tab = b.dataset.t; draw(); });
+}
+function draw() { tabs(); tab === 'write' ? write() : tab === 'req' ? requests() : list(tab === 'drafts' ? 'draft' : 'published'); }
+
+function suggest() {
+  const words = ((cur.title + ' ').repeat(2) + cur.body).toLowerCase().match(/[a-z0-9-]+/g) || [], sc = {}, hit = {};
+  for (const c of cats()) { const k = (KW[c] || c.toLowerCase()).split(' '); sc[c] = 0; hit[c] = []; for (const w of words) if (k.includes(w)) { sc[c]++; if (!hit[c].includes(w)) hit[c].push(w); } }
+  const top = cats().sort((a, b) => sc[b] - sc[a]);
+  return sc[top[0]] >= 3 && sc[top[0]] > (sc[top[1]] || 0) ? { c: top[0], w: hit[top[0]].slice(0, 4) } : null;
+}
+function drawSug() {
+  const s = suggest(), b = $('#sug');
+  if (!s || cur.cat === s.c) { b.hidden = true; return; }
+  b.hidden = false; b.innerHTML = `<span>Suggested: <strong>${esc(s.c)}</strong> <span class="hint">(matched: ${esc(s.w.join(', '))})</span></span><button class="btn sm" id="useSug">Use it</button>`;
+  $('#useSug').onclick = () => { cur.cat = s.c; $('#cat').value = s.c; drawSug(); };
+}
+function write() {
+  const c = cur, pub = c.status === 'published';
+  $('#view').innerHTML = `<label for="title">Title</label><input id="title" class="title" type="text" placeholder="What’s it called?" value="${esc(c.title)}">
+<label for="body">Write</label><p class="hint" style="margin:0 0 8px">Leave a blank line between paragraphs.</p><textarea id="body" placeholder="Start writing. Take as many days as you need.">${esc(c.body)}</textarea>
+<div class="lab">Image <span class="hint" style="font-weight:400">(optional)</span></div>
+<div class="drop"><div>Drag an image here, or</div><input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden><button class="btn" id="pick" style="margin-top:8px">Choose image</button>
+<ul class="spec"><li><strong>Best size:</strong> 1600 × 900 px (16:9 wide)</li><li><strong>Types:</strong> JPG, PNG or WebP</li><li><strong>Target:</strong> under 500 KB (hard limit 2 MB)</li><li>Big images are shrunk for you. Other shapes are cropped on cards.</li></ul>
+<div id="prev" class="prev" hidden><img id="pimg" alt=""><div><div id="imgInfo"></div><button class="btn sm" id="rm">Remove</button></div></div></div>
+<div id="altbox" hidden><label for="alt">Image description <span class="hint" style="font-weight:400">(for screen readers)</span></label><input id="alt" type="text" value="${esc(c.alt)}"></div>
+<label for="cat">Category</label><select id="cat"><option value="">Choose…</option>${cats().map(x => `<option${c.cat === x ? ' selected' : ''}>${esc(x)}</option>`).join('')}<option value="__new">+ New category…</option></select>
+<div class="sug" id="sug" hidden></div>
+<label style="display:flex;gap:10px;align-items:center;font-weight:600;margin-top:18px"><input id="feat" type="checkbox" style="width:auto"${c.featured ? ' checked' : ''}> Feature this on the home page</label>
+<div class="bar">${pub ? '<button class="btn main" id="publish">Save changes</button><button class="btn" id="unpub">Unpublish</button>' : '<button class="btn" id="save">Save draft</button><button class="btn main" id="publish">Publish</button>'}<button class="btn" id="fresh">New note</button><span class="saved" id="saved">${c.saved ? 'Saved ' + c.saved : 'Not saved yet'}</span></div>`;
+  $('#title').oninput = e => { c.title = e.target.value; dirty(); };
+  $('#body').oninput = e => { c.body = e.target.value; dirty(); };
+  $('#alt').oninput = e => c.alt = e.target.value;
+  $('#feat').onchange = e => c.featured = e.target.checked;
+  $('#cat').onchange = e => { if (e.target.value === '__new') { const n = (prompt('New category name') || '').trim().slice(0, 40); c.cat = n; write(); return; } c.cat = e.target.value; drawSug(); };
+  $('#pick').onclick = () => $('#file').click(); $('#file').onchange = e => take(e.target.files[0]);
+  const d = document.querySelector('.drop'); d.ondragover = e => e.preventDefault(); d.ondrop = e => { e.preventDefault(); take(e.dataTransfer.files[0]); };
+  $('#rm').onclick = () => { c.image_id = ''; c.blob = ''; c.info = ''; write(); dirty(); };
+  if ($('#save')) $('#save').onclick = () => save('draft', true);
+  $('#publish').onclick = () => save('published', true);
+  if ($('#unpub')) $('#unpub').onclick = () => save('draft', true);
+  $('#fresh').onclick = () => { cur = blank(); write(); };
+  if (c.image_id) showImg(); drawSug();
+}
+function showImg() { $('#prev').hidden = false; $('#pimg').src = cur.blob || '/img/' + cur.image_id; $('#altbox').hidden = false; $('#imgInfo').innerHTML = cur.info; }
+function dirty() { clearTimeout(timer); timer = setTimeout(() => { drawSug(); if (cur.status !== 'published' && (cur.title || cur.body)) save('draft', false); }, 1500); }
+const now = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+async function save(status, manual) {
+  if (!manual && !cur.title.trim() && !cur.body.trim()) return;
+  const r = await api('/api/admin/post/save', { id: cur.id, title: cur.title, body: cur.body, cat: cur.cat, alt: cur.alt, featured: cur.featured, image_id: cur.image_id, status });
+  if (!r.ok) { if (manual) toast(r.d.error || 'Could not save.'); return; }
+  cur.id = r.d.id; cur.status = r.d.status; cur.saved = now();
+  const s = $('#saved'); if (s) s.textContent = 'Saved ' + cur.saved;
+  await refresh(); tabs();
+  if (manual) { toast(status === 'published' ? 'Published' : 'Draft saved'); if (status !== cur.status || tab === 'write') write(); }
+}
+async function shrink(f) {
+  const bmp = await createImageBitmap(f), W = Math.min(1600, bmp.width), H = Math.round(bmp.height * W / bmp.width);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; cv.getContext('2d').drawImage(bmp, 0, 0, W, H);
+  let type = 'image/webp', q = .85, blob;
+  for (;;) {
+    blob = await new Promise(r => cv.toBlob(r, type, q));
+    if (type === 'image/webp' && blob && blob.type !== 'image/webp') { type = 'image/jpeg'; continue; }
+    if (blob.size <= 450 * 1024 || q <= .4) break; q -= .1;
+  }
+  return { blob, W, H, ow: bmp.width, oh: bmp.height };
+}
+async function take(f) {
+  if (!f) return;
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { toast('Use a JPG, PNG or WebP image.'); return; }
+  if (f.size > 2 * 1024 * 1024) { toast('That file is over 2 MB. Shrink it first.'); return; }
+  toast('Uploading…');
+  try {
+    const s = await shrink(f), buf = new Uint8Array(await s.blob.arrayBuffer());
+    let bin = ''; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+    const r = await api('/api/admin/image', { data: btoa(bin), mime: s.blob.type, w: s.W, h: s.H });
+    if (!r.ok) { toast(r.d.error || 'Upload failed.'); return; }
+    const ratio = s.ow / s.oh, kb = Math.round(s.blob.size / 1024);
+    cur.image_id = r.d.id; cur.blob = URL.createObjectURL(s.blob);
+    cur.info = `<span class="badge ${s.ow >= 1200 ? 'ok' : 'warn'}">${s.ow >= 1200 ? '✓' : '!'} Original ${s.ow}×${s.oh}px${s.ow >= 1200 ? '' : ' is small. Aim for 1600 px wide.'}</span><span class="badge ${Math.abs(ratio - 16 / 9) < .12 ? 'ok' : 'warn'}">${Math.abs(ratio - 16 / 9) < .12 ? '✓ 16:9 shape' : '! Not 16:9, so cards will crop it.'}</span><span class="badge ok">✓ Saved as ${s.W}×${s.H}px, ${kb} KB</span>`;
+    showImg(); dirty(); toast('Image added');
+  } catch { toast('Could not read that image.'); }
+}
+function list(status) {
+  const arr = items.filter(i => i.status === status);
+  if (!arr.length) { $('#view').innerHTML = `<p class="hint">${status === 'draft' ? 'No drafts yet. Anything you start is saved here, so you can come back in a day or a week.' : 'Nothing published yet.'}</p>`; return; }
+  $('#view').innerHTML = arr.map(n => `<div class="item"><div><strong>${esc(n.title || 'Untitled')}</strong><span class="m">${esc(n.cat || 'No category')} · ${status === 'draft' ? 'saved ' : 'published '}${new Date(status === 'draft' ? n.updated : n.published_at).toLocaleDateString()}${n.image_id ? ' · has image' : ''}${n.featured ? ' · featured' : ''}</span></div><div><button class="btn sm" data-o="${n.id}">${status === 'draft' ? 'Continue' : 'Edit'}</button>${status === 'draft' ? ` <button class="btn sm" data-x="${n.id}">Delete</button>` : ''}</div></div>`).join('');
+  document.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
+    const r = await api('/api/admin/post/' + b.dataset.o); if (!r.ok) { toast('Could not open it.'); return; }
+    cur = { ...blank(), ...r.d.post, featured: !!r.d.post.featured, image_id: r.d.post.image_id || '', alt: r.d.post.alt || '' }; tab = 'write'; draw();
+  });
+  document.querySelectorAll('[data-x]').forEach(b => b.onclick = async () => { if (confirm('Delete this draft for good?')) { await api('/api/admin/post/delete', { id: b.dataset.x }); await refresh(); draw(); } });
+}
+async function requests() {
+  const r = await api('/api/admin/list');
+  if (!r.ok) { $('#view').innerHTML = '<p class="hint">Could not load requests.</p>'; return; }
+  const its = r.d.items, w = its.filter(i => i.status === 'pending').length;
+  $('#view').innerHTML = `<p class="hint">${w ? w + (w === 1 ? ' person is' : ' people are') + ' waiting for approval.' : 'No one is waiting.'}</p>`;
+  for (const it of its) {
+    const d = document.createElement('div'); d.className = 'item';
+    const t = document.createElement('div'); t.innerHTML = `<strong></strong><span class="m"></span>`; t.firstChild.textContent = it.name; t.lastChild.textContent = it.email + ' · ' + it.status + ' · ' + new Date(it.created).toLocaleDateString();
+    const bt = document.createElement('div');
+    const add = (label, decision) => { const b = document.createElement('button'); b.className = 'btn sm'; b.textContent = label; b.onclick = async () => { b.disabled = true; await api('/api/admin/decide', { email: it.email, decision }); requests(); }; bt.append(b, ' '); };
+    if (it.status !== 'approved') add('Approve', 'approve');
+    if (it.status !== 'rejected') add(it.status === 'approved' ? 'Remove access' : 'Reject', 'reject');
+    d.append(t, bt); $('#view').append(d);
+  }
+}
+start();
 </script></body></html>

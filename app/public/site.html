@@ -1,42 +1,114 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hello World!</title>
-<style>
-:root{--bg:#eef1f4;--ink:#101828;--muted:#5b6676;--line:#b9c2cf;--accent:#2437d9;--accent-ink:#fff;--err:#b42318;--display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#12161d;--ink:#eef1f4;--muted:#98a3b3;--line:#3a4352;--accent:#8da0ff;--accent-ink:#101828;--err:#ff8f85;color-scheme:dark}}
+<meta name="robots" content="noindex">
+<title>helloamar</title>
+<style>:root{--bg:#eef1f4;--ink:#101828;--muted:#5b6676;--line:#b9c2cf;--accent:#2437d9;--accent-ink:#fff;--card:#e3e8ee;--ok:#0f766e;--warn:#b54708;--err:#b42318;--display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#12161d;--ink:#eef1f4;--muted:#98a3b3;--line:#3a4352;--accent:#8da0ff;--accent-ink:#101828;--card:#1b212b;--ok:#5eead4;--warn:#fdba74;--err:#ff8f85;color-scheme:dark}}
 *,*::before,*::after{box-sizing:inherit}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);display:flex;align-items:center;justify-content:center;padding:24px}
-main{width:100%;max-width:460px}
-h1{font-family:var(--display);font-weight:600;font-size:clamp(2.6rem,11vw,4.2rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 16px}
-p{color:var(--muted);font-size:1.05rem;line-height:1.5;margin:0 0 28px;max-width:38ch}
-label{display:block;font-weight:600;margin-bottom:8px}
-input{width:100%;font:inherit;font-size:1.1rem;padding:14px 16px;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:6px}
-button.main{margin-top:14px;width:100%;font:inherit;font-weight:600;font-size:1.05rem;padding:14px 16px;border:0;border-radius:6px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
-button.main:disabled{opacity:.6;cursor:default}
-button.main.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
-button.link{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5}
+.wrap{max-width:740px;margin:0 auto;padding:20px 22px 80px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:30px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:600;font-size:1.5rem;color:var(--ink);text-decoration:none}
+nav a,nav button{color:var(--muted);text-decoration:none;margin-left:18px;font:inherit;font-weight:600;background:none;border:0;padding:0;cursor:pointer}
+nav a:hover,nav a.on,nav button:hover{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.codes{display:flex;gap:10px;margin-bottom:6px}
-.codes input{flex:1;min-width:0;text-align:center;font-family:var(--display);font-weight:600;font-size:2rem;padding:12px 0}
-.codes input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
-.codes.bad input{border-color:var(--err)}
-.codes.bad{animation:shake .3s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@media(prefers-reduced-motion:reduce){.codes.bad{animation:none}}
-.msg{min-height:1.4em;color:var(--err);margin:8px 0 0;font-size:.95rem}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2rem,7vw,3rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 14px}
+h2{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:36px 0 10px}
+.lead{font-family:var(--display);font-size:clamp(1.4rem,4.5vw,1.9rem);line-height:1.3;max-width:26ch;margin:0 0 26px}
+.hint{color:var(--muted)}
+.img,.pic{display:flex;align-items:flex-end;padding:12px;color:#fff;font-size:.8rem;letter-spacing:.05em;border-radius:6px;aspect-ratio:16/9;width:100%;object-fit:cover}
+.pic{padding:0;display:block}
+.g0{background:linear-gradient(135deg,#2437d9,#7b8cff)}.g1{background:linear-gradient(135deg,#101828,#4a5a86)}.g2{background:linear-gradient(135deg,#0f766e,#6ee7b7);color:#04201c}.g3{background:linear-gradient(135deg,#7c2d92,#e879f9)}
+.feat{display:block;text-decoration:none;color:inherit;background:var(--card);border-radius:8px;overflow:hidden}
+.feat .img,.feat .pic{border-radius:0}.feat .t{padding:16px 18px 18px}.feat p{margin:6px 0 0;color:var(--muted)}
+.feat h3{font-family:var(--display);font-size:1.5rem;margin:0}
+.tag{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.row:hover .rt{color:var(--accent)}.rt{font-family:var(--display);font-size:1.15rem}.rd{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip,.tab{font:inherit;font-weight:600;padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chip.on,.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.note .pic,.note .img{margin:18px 0 24px}.note p{max-width:60ch;font-size:1.08rem;white-space:pre-wrap}
+.back{color:var(--accent);text-decoration:none;font-weight:600}.meta{color:var(--muted);margin-bottom:6px}
+label,.lab{display:block;font-weight:700;margin:20px 0 6px}
+input[type=text],input[type=email],textarea,select{width:100%;font:inherit;font-size:1.05rem;padding:12px 14px;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:6px}
+input.title{font-family:var(--display);font-size:1.6rem;font-weight:600}
+textarea{min-height:260px;resize:vertical;line-height:1.55}
+.drop{border:2px dashed var(--line);border-radius:8px;padding:20px;text-align:center;background:var(--card)}
+.spec{text-align:left;margin:12px auto 0;max-width:460px;color:var(--muted);font-size:.92rem;padding-left:18px}
+.btn{font:inherit;font-weight:600;font-size:1rem;padding:11px 18px;border-radius:6px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.sm{padding:6px 12px;font-size:.9rem}.btn:disabled{opacity:.6}
+.prev{display:flex;gap:14px;align-items:flex-start;margin-top:14px;text-align:left}.prev img{width:150px;aspect-ratio:16/9;object-fit:cover;border-radius:6px}
+.badge{display:block;font-size:.85rem;font-weight:600;margin:2px 0}.ok{color:var(--ok)}.warn{color:var(--warn)}.msg{min-height:1.4em;color:var(--err);margin:8px 0 0}
+.sug{margin-top:8px;padding:10px 12px;border-radius:6px;background:var(--card);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar{position:sticky;bottom:0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 0;margin-top:26px;background:var(--bg);border-top:1px solid var(--line)}
+.saved{color:var(--muted);font-size:.9rem;margin-left:auto}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.item strong{font-family:var(--display);font-size:1.15rem}.item .m{display:block;color:var(--muted);font-size:.9rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:6px;font-weight:600}
 .small{color:var(--muted);font-size:.95rem;margin-top:22px}
-.req{border:2px solid var(--line);border-radius:6px;padding:16px;margin-bottom:12px}
-.req span{color:var(--muted);font-size:.95rem}
-.row{display:flex;gap:10px}.row .main{margin-top:14px}
-.hello{font-size:clamp(3.4rem,17vw,9rem)}
 [hidden]{display:none!important}
+@media(max-width:520px){.row{grid-template-columns:1fr auto}.row .tag{grid-column:1/-1}}
 </style>
-</head><body><main>
-<h1 class="hello">Hello World!</h1>
-<p class="small"><button class="link" id="out">Sign out</button></p>
-</main>
+</head><body>
+<div class="wrap">
+<header><a class="brand" href="#home">helloamar</a><nav><a href="#notes" id="n-notes">Notes</a><a href="#about" id="n-about">About</a><button id="out">Sign out</button></nav></header>
+<main id="view"></main>
+</div>
 <script>
-document.getElementById('out').onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.href = '/'; };
+// Edit these two lines, then redeploy.
+const LEAD = 'One line about you goes here.';
+const ABOUT = 'A short page about who you are and what this site is for.';
+
+const $ = s => document.querySelector(s), v = $('#view');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = t => new Date(t).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+const gcls = c => 'g' + ([...String(c)].reduce((a, ch) => a + ch.charCodeAt(0), 0) % 4);
+let posts = null, filter = 'All';
+
+async function load() {
+  if (posts) return posts;
+  try {
+    const r = await fetch('/api/posts');
+    if (r.status === 401 || r.status === 403) { location.reload(); return []; }
+    posts = (await r.json()).items || [];
+  } catch { posts = []; }
+  return posts;
+}
+const pic = p => p.image_id ? `<img class="pic" src="/img/${esc(p.image_id)}" alt="" loading="lazy">` : `<div class="img ${gcls(p.cat)}">${esc(p.cat)}</div>`;
+const row = p => `<a class="row" href="#note-${esc(p.id)}"><span class="tag">${esc(p.cat)}</span><span class="rt">${esc(p.title)}</span><span class="rd">${fmt(p.published_at)}</span></a>`;
+
+async function home() {
+  const ps = await load(), f = ps.find(p => p.featured), rest = ps.filter(p => p !== f).slice(0, 5);
+  v.innerHTML = `<p class="lead">${esc(LEAD)}</p>` + (ps.length ? '' : '<p class="hint">Nothing published yet. Check back soon.</p>') +
+    (f ? `<h2>Featured</h2><a class="feat" href="#note-${esc(f.id)}">${pic(f)}<div class="t"><span class="tag">${esc(f.cat)}</span><h3>${esc(f.title)}</h3><p>${esc(f.excerpt)}${f.excerpt && f.excerpt.length >= 160 ? '…' : ''}</p></div></a>` : '') +
+    (rest.length ? `<h2>Latest</h2>${rest.map(row).join('')}<p><a class="back" href="#notes">All notes →</a></p>` : '');
+}
+async function notes() {
+  const ps = await load(), cats = ['All', ...new Set(ps.map(p => p.cat))], list = ps.filter(p => filter === 'All' || p.cat === filter);
+  v.innerHTML = `<h1>Notes</h1><div class="chips">${cats.map(c => `<button class="chip${c === filter ? ' on' : ''}" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>` + (list.length ? list.map(row).join('') : '<p class="hint">Nothing here yet.</p>');
+  v.querySelectorAll('.chip').forEach(b => b.onclick = () => { filter = b.dataset.c; notes(); });
+}
+async function note(id) {
+  v.innerHTML = '<p class="hint">Loading…</p>';
+  let p = null;
+  try { const r = await fetch('/api/posts/' + encodeURIComponent(id)); if (r.ok) p = (await r.json()).post; } catch {}
+  if (!p) { v.innerHTML = '<p><a class="back" href="#notes">← Notes</a></p><p class="hint">That note isn’t available.</p>'; return; }
+  const img = p.image_id ? `<img class="pic" src="/img/${esc(p.image_id)}" alt="${esc(p.alt)}">` : '';
+  const body = String(p.body).split(/\n\s*\n/).map(t => `<p>${esc(t.trim())}</p>`).join('');
+  v.innerHTML = `<div class="note"><a class="back" href="#notes">← Notes</a><p class="meta" style="margin-top:22px"><span class="tag">${esc(p.cat)}</span> · ${fmt(p.published_at)}</p><h1>${esc(p.title)}</h1>${img}${body}</div>`;
+}
+function about() { v.innerHTML = `<h1>About</h1><p style="max-width:60ch;font-size:1.08rem">${esc(ABOUT)}</p>`; }
+function route() {
+  const h = location.hash.slice(1) || 'home';
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('on'));
+  if (h === 'notes') { $('#n-notes').classList.add('on'); notes(); }
+  else if (h === 'about') { $('#n-about').classList.add('on'); about(); }
+  else if (h.startsWith('note-')) note(h.slice(5));
+  else home();
+  window.scrollTo(0, 0);
+}
+$('#out').onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.href = '/'; };
+addEventListener('hashchange', route); route();
 </script></body></html>
