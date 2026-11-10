@@ -21,7 +21,7 @@ function init(db) {
     ready = db.batch([
       db.prepare(`CREATE TABLE IF NOT EXISTS requests (email TEXT PRIMARY KEY, name TEXT, status TEXT NOT NULL DEFAULT 'new', code_hash TEXT, code_exp INTEGER DEFAULT 0, attempts INTEGER DEFAULT 0, last_sent INTEGER DEFAULT 0, created INTEGER)`),
       db.prepare(`CREATE TABLE IF NOT EXISTS sessions (hash TEXT PRIMARY KEY, email TEXT, admin INTEGER DEFAULT 0, exp INTEGER)`),
-    ]).catch(e => { ready = null; throw e; });
+    ]).then(() => db.prepare('ALTER TABLE requests ADD COLUMN rejected_at INTEGER DEFAULT 0').run().catch(() => {})).catch(e => { ready = null; throw e; });
   }
   return ready;
 }
@@ -65,15 +65,21 @@ async function requestCode(request, env, admin) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return json({ error: 'Enter a valid email.' }, 400);
   if (!name) return json({ error: 'Enter your name.' }, 400);
   const now = Date.now();
-  const row = await env.DB.prepare('SELECT status, last_sent FROM requests WHERE email = ?').bind(email).first();
-  if (row && row.status === 'rejected') return json({ error: 'This email can’t be used here.' }, 403);
+  const row = await env.DB.prepare('SELECT status, last_sent, rejected_at FROM requests WHERE email = ?').bind(email).first();
+  if (row && row.status === 'rejected') {
+    const left = (row.rejected_at || 0) + 3 * DAY - now;
+    if (left > 0) {
+      const d = Math.ceil(left / DAY);
+      return json({ error: `Your request wasn’t approved. Please wait ${d} ${d === 1 ? 'day' : 'days'} before trying again.` }, 403);
+    }
+  }
   if (row && now - row.last_sent < MIN) return json({ error: 'Please wait a minute before asking for a new code.' }, 429);
   const { n } = await env.DB.prepare('SELECT COUNT(*) AS n FROM requests WHERE last_sent > ?').bind(now - 60 * MIN).first();
   if (n >= 30) return json({ error: 'Lots of requests right now. Try again later.' }, 429);
   const code = code6();
   await env.DB.prepare(
     `INSERT INTO requests (email, name, status, code_hash, code_exp, attempts, last_sent, created) VALUES (?, ?, ?, ?, ?, 0, ?, ?)
-     ON CONFLICT(email) DO UPDATE SET name = CASE WHEN requests.status = 'new' THEN excluded.name ELSE requests.name END,
+     ON CONFLICT(email) DO UPDATE SET name = CASE WHEN requests.status IN ('new','rejected') THEN excluded.name ELSE requests.name END, status = CASE WHEN requests.status = 'rejected' THEN 'new' ELSE requests.status END,
        code_hash = excluded.code_hash, code_exp = excluded.code_exp, attempts = 0, last_sent = excluded.last_sent`
   ).bind(email, name, isAdmin ? 'approved' : 'new', await sha(email + ':' + code), now + 10 * MIN, now, now).run();
   const ok = await mail(env, email, 'Your helloamar code', `Your code is ${code}\n\nIt expires in 10 minutes. If you didn’t ask for it, ignore this email.`);
@@ -126,12 +132,12 @@ async function adminApi(request, env, admin, p) {
     const row = await env.DB.prepare(`SELECT name FROM requests WHERE email = ? AND status IN ('pending','approved','rejected')`).bind(email).first();
     if (!row) return json({ error: 'Not found.' }, 404);
     const approve = b.decision === 'approve';
-    await env.DB.prepare('UPDATE requests SET status = ? WHERE email = ?').bind(approve ? 'approved' : 'rejected', email).run();
+    await env.DB.prepare('UPDATE requests SET status = ?, rejected_at = ? WHERE email = ?').bind(approve ? 'approved' : 'rejected', approve ? 0 : Date.now(), email).run();
     if (!approve) await env.DB.prepare('DELETE FROM sessions WHERE email = ?').bind(email).run();
     await mail(env, email,
       approve ? 'You’re approved on helloamar' : 'Your helloamar request',
       approve ? `Hi ${row.name}, you’re approved. Open ${env.SITE_URL} and you’ll be in.`
-              : `Hi ${row.name}, thanks for asking. I can’t give you access right now.`);
+              : `Hi ${row.name}, thanks for asking. I can’t give you access right now. You’re welcome to ask again after 3 days.`);
     return json({ ok: true });
   }
   return json({ error: 'Not found.' }, 404);
