@@ -1,5 +1,6 @@
 // helloamar email gate: visitor verifies email with a 6-digit code, then the owner approves at /admin.
 import { handlePosts } from './posts.js';
+import { handleSeo } from './seo.js';
 const enc = new TextEncoder();
 const MIN = 60000, DAY = 86400000;
 let ready = null;
@@ -166,6 +167,8 @@ export default {
         if (!s) return json({ error: 'none' }, 401);
         return json({ status: s.status, name: s.name, email: s.email, admin: s.admin === 1 && s.email === admin });
       }
+      const seo = handleSeo(p, env);
+      if (seo) return seo;
       const extra = await handlePosts(request, env, admin, p, getSession);
       if (extra) return extra;
       if (p.startsWith('/api/admin/')) return await adminApi(request, env, admin, p);
