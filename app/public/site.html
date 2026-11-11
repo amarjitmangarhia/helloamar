@@ -112,6 +112,6 @@ function route() {
   else home();
   window.scrollTo(0, 0);
 }
-$('#out').onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.href = '/'; };
+$('#out').onclick = async () => { if (!confirm('Are you sure you want to sign out?')) return; await fetch('/api/logout', { method: 'POST' }); location.href = '/'; };
 addEventListener('hashchange', route); route();
 </script></body></html>

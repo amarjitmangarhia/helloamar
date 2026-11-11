@@ -138,6 +138,6 @@ $('email').addEventListener('keydown', e => { if (e.key === 'Enter') send(false)
 $('check').onclick = check;
 $('back').onclick = () => show(1);
 $('resend').onclick = () => send(true);
-$('out').onclick = async () => { await api('/api/logout', {}); location.reload(); };
+$('out').onclick = async () => { if (!confirm('Are you sure you want to sign out?')) return; await api('/api/logout', {}); location.reload(); };
 api('/api/me').then(r => { if (r.ok && r.d.status === 'pending') wait(); });
 </script></body></html>
